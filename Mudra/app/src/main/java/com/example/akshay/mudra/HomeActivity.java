@@ -1,8 +1,13 @@
 package com.example.akshay.mudra;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -69,6 +74,49 @@ public class HomeActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+
+        if (id == R.id.menu_addAccount){
+
+
+        }
+        if (id == R.id.menu_addGroup){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Enter Year");
+            builder.setView(getLayoutInflater().inflate(R.layout.popup_add_group,null,false));
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Log.d("msg", "okk button clicked");
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Log.d("msg", "Cancel button clicked");
+                }
+            });
+            builder.create().show();
+
+
+        }
+        if (id == R.id.menu_addYear){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Enter Year");
+            builder.setView(getLayoutInflater().inflate(R.layout.popup_year,null,false));
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Log.d("msg", "okk button clicked");
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Log.d("msg", "Cancel button clicked");
+                }
+            });
+            builder.create().show();
         }
 
         return super.onOptionsItemSelected(item);
