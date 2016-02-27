@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.akshay.mudra.Utility.Utility;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -44,6 +45,8 @@ public class LoginActivity extends AppCompatActivity {
 
                     AsyncHttpClient login = new AsyncHttpClient();
                     try {
+                        if(Utility.isNetConnected(getApplicationContext())){
+
                         login.post(LoginActivity.this, "http://192.168.1.125:8000/user_login/", new StringEntity(jsonobj.toString()),
                                 "application/json", new JsonHttpResponseHandler(){
                                     @Override
@@ -55,19 +58,23 @@ public class LoginActivity extends AppCompatActivity {
                                             if(response.getBoolean("status")){
                                                 Intent i = new Intent(LoginActivity.this, HomeActivity.class);
                                                 startActivity(i);
+                                            }else{
+                                                Log.d("msg", "In Invalid Credential");
+                                                Toast.makeText(getApplication(),"Invalid Credentials, Please Try Again", Toast.LENGTH_SHORT).show();
                                             }
                                         } catch (JSONException e) {
                                             e.printStackTrace();
+                                            Toast.makeText(getApplication(),"Please Try Again", Toast.LENGTH_SHORT).show();
                                         }
-
                                     }
                                 });
-
+                        }else{
+                            Toast.makeText(getApplication(),"Please Check Internet Connection",Toast.LENGTH_SHORT).show();
+                        }
 
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
