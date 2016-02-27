@@ -15,6 +15,10 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Edit Accounts" />
         <item
+            android:id="@+id/eventAccounting"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Event Accounting" />
+        <item
             android:id="@+id/activities"
             android:icon="@drawable/ic_menu_manage"
             android:title="Activities" />
