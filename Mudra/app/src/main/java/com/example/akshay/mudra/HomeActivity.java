@@ -77,13 +77,9 @@ public class HomeActivity extends AppCompatActivity
         }
 
         if (id == R.id.menu_addAccount){
-
-
-        }
-        if (id == R.id.menu_addGroup){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Enter Year");
-            builder.setView(getLayoutInflater().inflate(R.layout.popup_add_group,null,false));
+            builder.setTitle("Add New Account");
+            builder.setView(getLayoutInflater().inflate(R.layout.popup_add_new_acc,null,false));
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -100,9 +96,28 @@ public class HomeActivity extends AppCompatActivity
 
 
         }
+        if (id == R.id.menu_addGroup){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Add Group");
+            builder.setView(getLayoutInflater().inflate(R.layout.popup_add_group,null,false));
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Log.d("msg", "okk button clicked");
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Log.d("msg", "Cancel button clicked");
+                }
+            });
+            builder.create().show();
+
+        }
         if (id == R.id.menu_addYear){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Enter Year");
+            builder.setTitle("Add Year");
             builder.setView(getLayoutInflater().inflate(R.layout.popup_year,null,false));
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override

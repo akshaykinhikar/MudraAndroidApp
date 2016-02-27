@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/et_new_user_acc_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="New Account Name"/>
+            <EditText
+                android:id="@+id/et_alias_acc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Alias for Account"/>
+            <EditText
+                android:id="@+id/et_groupname"
+                android:hint="Select Group Name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Personal Info"
+                />
+            <EditText
+                android:id="@+id/et_fname"
+                android:hint="First Name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/et_et_lname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Last Name"/>
+            <EditText
+                android:id="@+id/et_line1"
+                android:hint="Address Line 1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/et_line2"
+                android:hint="Address Line 2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/et_city"
+                android:hint="CIty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/et_state"
+                android:hint="State"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/et_country"
+                android:hint="Country"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/et_pin"
+                android:hint="PIN"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/et_email"
+                android:hint="Email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/et_mob0"
+                android:hint="mobile Number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/et_alter_mob_no"
+                android:hint="Altername Mobile Number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/et_opening_balance"
+                android:hint="Opening Balance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/et_acc_type"
+                android:hint="Select Acc Type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</RelativeLayout>
