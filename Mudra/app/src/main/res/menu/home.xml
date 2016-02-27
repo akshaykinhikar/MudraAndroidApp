@@ -6,4 +6,19 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
+    <item android:id="@+id/menu_addAccount"
+        android:title="A+"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        />
+    <item android:id="@+id/menu_addGroup"
+        android:title="G+"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        />
+    <item android:id="@+id/menu_addYear"
+        android:title="Y+"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        />
 </menu>
