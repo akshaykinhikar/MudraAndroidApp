@@ -1,11 +1,13 @@
 package com.example.akshay.mudra;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -42,8 +44,26 @@ public class LoginActivity extends AppCompatActivity {
 
                     AsyncHttpClient login = new AsyncHttpClient();
                     try {
-                        login.post(LoginActivity.this, "http://192.168.1.125:8000/user_login/", new StringEntity(jsonobj.toString()),"application/json", new JsonHttpResponseHandler(
-                        ));
+                        login.post(LoginActivity.this, "http://192.168.1.125:8000/user_login/", new StringEntity(jsonobj.toString()),
+                                "application/json", new JsonHttpResponseHandler(){
+                                    @Override
+                                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                        super.onSuccess(statusCode, headers, response);
+                                        Log.d("msg", "response" + response);
+                                        try {
+
+                                            if(response.getBoolean("status")){
+                                                Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                                                startActivity(i);
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                    }
+                                });
+
+
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
