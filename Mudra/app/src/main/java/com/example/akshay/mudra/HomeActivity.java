@@ -86,6 +86,8 @@ public class HomeActivity extends AppCompatActivity
 
         } else if (id == R.id.editAccounts) {
 
+        } else if (id == R.id.eventAccounting) {
+
         } else if (id == R.id.activities) {
 
         } else if (id == R.id.nav_share) {
