@@ -21,21 +21,26 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.akshay.mudra.Fragments.AccountsFragment;
+import com.example.akshay.mudra.Fragments.ActivitiesFragment;
+import com.example.akshay.mudra.Fragments.EditAccountsFragment;
+import com.example.akshay.mudra.Fragments.EventAccountingFragment;
 import com.example.akshay.mudra.Fragments.HomeFragment;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,HomeFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener,HomeFragment.OnFragmentInteractionListener,AccountsFragment.OnFragmentInteractionListener, ActivitiesFragment.OnFragmentInteractionListener,EditAccountsFragment.OnFragmentInteractionListener,EventAccountingFragment.OnFragmentInteractionListener {
+
+    FragmentManager fragmentManager = getSupportFragmentManager();
+    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        HomeFragment hello = new HomeFragment();
-        fragmentTransaction.add(R.id.homeFragment,new HomeFragment(),"homeFragment");
-        fragmentTransaction.commit();
+        //Fragment attached
+//        fragmentTransaction.add(R.id.homeFragment, new HomeFragment(), "homeFragment");
+//        fragmentTransaction.commit();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -155,15 +160,31 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.home) {
+        if (id == R.id.myAccount) {
+            Log.d("msg","myAccount");
+            fragmentTransaction.replace(R.id.homeFragment, new HomeFragment(), "homeFragment");
+            fragmentTransaction.commit();
+
             // Handle the camera action
         } else if (id == R.id.accounts) {
+            Log.d("msg","Accounts");
+            fragmentTransaction.replace(R.id.homeFragment, new AccountsFragment(), "accountsFragment");
+            fragmentTransaction.commit();
 
         } else if (id == R.id.editAccounts) {
+            Log.d("msg","myeditAccounts");
+            fragmentTransaction.replace(R.id.homeFragment, new EditAccountsFragment(), "editAccountsFragment");
+            fragmentTransaction.commit();
 
         } else if (id == R.id.eventAccounting) {
+            Log.d("msg","myeventAccounting");
+            fragmentTransaction.replace(R.id.homeFragment, new EventAccountingFragment(), "eventAccountingFragment");
+            fragmentTransaction.commit();
 
         } else if (id == R.id.activities) {
+            Log.d("msg","myActivities");
+            fragmentTransaction.replace(R.id.homeFragment, new ActivitiesFragment(), "activitiesFragment");
+            fragmentTransaction.commit();
 
         } else if (id == R.id.nav_share) {
 
