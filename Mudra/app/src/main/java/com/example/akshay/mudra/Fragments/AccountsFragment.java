@@ -91,6 +91,7 @@ public class AccountsFragment extends ListFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getActivity(), data.get(position).get("years") , Toast.LENGTH_SHORT).show();
+                
             }
         });
     }
