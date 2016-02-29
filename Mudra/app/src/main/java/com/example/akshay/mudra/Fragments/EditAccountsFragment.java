@@ -4,23 +4,27 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.example.akshay.mudra.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link EditAccountsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link EditAccountsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class EditAccountsFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class EditAccountsFragment extends ListFragment {
 
     private OnFragmentInteractionListener mListener;
+    String[] Acc = {"a","b","c","d"};
+    String[] Amount = {"A", "B", "C", "D"};
+
+    ArrayList<HashMap<String,String>> data = new ArrayList<HashMap<String, String>>();
+    SimpleAdapter adapter;
 
     public EditAccountsFragment() {
         // Required empty public constructor
@@ -29,6 +33,20 @@ public class EditAccountsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        HashMap<String, String> map = new HashMap<String, String>();
+        for(int i=0; i<Acc.length; i++){
+            map = new HashMap<String, String>();
+            map.put("acc", Acc[i]);
+            map.put("amount", Amount[i]);
+            data.add(map);
+        }
+
+        String[] from = {"acc", "amount"};
+        int[] to ={R.id.acc_name, R.id.acc_amount};
+        adapter = new SimpleAdapter(getActivity(), data, R.layout.account_list_for_edit, from, to);
+        setListAdapter(adapter);
+
       }
 
     @Override
@@ -43,6 +61,17 @@ public class EditAccountsFragment extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getActivity(), data.get(position).get("acc"), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
