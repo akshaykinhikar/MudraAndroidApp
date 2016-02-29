@@ -39,8 +39,10 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
 
         //Fragment attached
-//        fragmentTransaction.add(R.id.homeFragment, new HomeFragment(), "homeFragment");
-//        fragmentTransaction.commit();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.homeFragment, new HomeFragment(), "homeFragment");
+        fragmentTransaction.commit();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -162,27 +164,37 @@ public class HomeActivity extends AppCompatActivity
 
         if (id == R.id.myAccount) {
             Log.d("msg","myAccount");
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.homeFragment, new HomeFragment(), "homeFragment");
             fragmentTransaction.commit();
 
             // Handle the camera action
         } else if (id == R.id.accounts) {
             Log.d("msg","Accounts");
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.homeFragment, new AccountsFragment(), "accountsFragment");
             fragmentTransaction.commit();
 
         } else if (id == R.id.editAccounts) {
             Log.d("msg","myeditAccounts");
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.homeFragment, new EditAccountsFragment(), "editAccountsFragment");
             fragmentTransaction.commit();
 
         } else if (id == R.id.eventAccounting) {
             Log.d("msg","myeventAccounting");
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.homeFragment, new EventAccountingFragment(), "eventAccountingFragment");
             fragmentTransaction.commit();
 
         } else if (id == R.id.activities) {
             Log.d("msg","myActivities");
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.homeFragment, new ActivitiesFragment(), "activitiesFragment");
             fragmentTransaction.commit();
 
