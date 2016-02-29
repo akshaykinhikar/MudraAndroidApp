@@ -6,6 +6,13 @@
     tools:context="com.example.akshay.mudra.Fragments.AccountsFragment">
 
     <!-- TODO: Update blank fragment layout -->
- 
+
+    <ListView
+        android:layout_width="match_parent"
+        android:id="@android:id/list"
+        android:layout_height="wrap_content">
+
+    </ListView>
+
 
 </FrameLayout>
