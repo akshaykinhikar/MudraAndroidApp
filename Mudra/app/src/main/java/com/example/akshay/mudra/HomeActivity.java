@@ -26,9 +26,10 @@ import com.example.akshay.mudra.Fragments.ActivitiesFragment;
 import com.example.akshay.mudra.Fragments.EditAccountsFragment;
 import com.example.akshay.mudra.Fragments.EventAccountingFragment;
 import com.example.akshay.mudra.Fragments.HomeFragment;
+import com.example.akshay.mudra.Fragments.TransactionDetailFragment;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,HomeFragment.OnFragmentInteractionListener,AccountsFragment.OnFragmentInteractionListener, ActivitiesFragment.OnFragmentInteractionListener,EditAccountsFragment.OnFragmentInteractionListener,EventAccountingFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener,HomeFragment.OnFragmentInteractionListener,AccountsFragment.OnFragmentInteractionListener, ActivitiesFragment.OnFragmentInteractionListener,EditAccountsFragment.OnFragmentInteractionListener,EventAccountingFragment.OnFragmentInteractionListener, AccountsFragment.FragmentTransactionInterface {
 
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -211,6 +212,16 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+
+    @Override
+    public void fragmentTransactionInterface() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.homeFragment, new TransactionDetailFragment(), "homeFragment");
+        fragmentTransaction.commit();
 
     }
 }
