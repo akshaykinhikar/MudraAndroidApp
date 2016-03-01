@@ -23,13 +23,14 @@ import android.view.MenuItem;
 
 import com.example.akshay.mudra.Fragments.AccountsFragment;
 import com.example.akshay.mudra.Fragments.ActivitiesFragment;
+import com.example.akshay.mudra.Fragments.EditAccountsFormFragment;
 import com.example.akshay.mudra.Fragments.EditAccountsFragment;
 import com.example.akshay.mudra.Fragments.EventAccountingFragment;
 import com.example.akshay.mudra.Fragments.HomeFragment;
 import com.example.akshay.mudra.Fragments.TransactionDetailFragment;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,HomeFragment.OnFragmentInteractionListener,AccountsFragment.OnFragmentInteractionListener, ActivitiesFragment.OnFragmentInteractionListener,EditAccountsFragment.OnFragmentInteractionListener,EventAccountingFragment.OnFragmentInteractionListener, AccountsFragment.FragmentTransactionInterface {
+        implements NavigationView.OnNavigationItemSelectedListener,HomeFragment.OnFragmentInteractionListener,AccountsFragment.OnFragmentInteractionListener, ActivitiesFragment.OnFragmentInteractionListener,EditAccountsFragment.OnFragmentInteractionListener,EventAccountingFragment.OnFragmentInteractionListener, AccountsFragment.FragmentTransactionInterface, EditAccountsFragment.EditAccountFragmentInterface {
 
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -222,6 +223,17 @@ public class HomeActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.homeFragment, new TransactionDetailFragment(), "homeFragment");
         fragmentTransaction.commit();
+
+    }
+
+    @Override
+    public void editAccountFragmentInterface() {
+        Log.d("msg", "editAccountFragmentInterface");
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.homeFragment, new EditAccountsFormFragment(), "homeFragment");
+        fragmentTransaction.commit();
+        Log.d("msg", "Afteer Ataching editAccountFragmentInterface");
 
     }
 }

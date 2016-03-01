@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.example.akshay.mudra.HomeActivity;
 import com.example.akshay.mudra.R;
 
 import java.util.ArrayList;
@@ -56,12 +57,6 @@ public class EditAccountsFragment extends ListFragment {
         return inflater.inflate(R.layout.fragment_edit_accounts, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onStart() {
@@ -70,8 +65,13 @@ public class EditAccountsFragment extends ListFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getActivity(), data.get(position).get("acc"), Toast.LENGTH_SHORT).show();
+                ((HomeActivity)getActivity()).editAccountFragmentInterface();
             }
         });
+    }
+
+    public interface EditAccountFragmentInterface{
+        void editAccountFragmentInterface();
     }
 
 
