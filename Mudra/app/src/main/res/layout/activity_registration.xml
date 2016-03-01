@@ -31,7 +31,7 @@
         android:id="@+id/et_username"
         android:padding="@dimen/padding_editText"
         android:hint="Username"
-         />
+        />
 
     <EditText
         android:layout_width="match_parent"
@@ -113,6 +113,7 @@
         android:id="@+id/et_pin"
         android:hint="Pin"
         android:padding="@dimen/padding_editText"
+        android:inputType="number"
         />
     <EditText
         android:layout_width="match_parent"
@@ -132,6 +133,7 @@
         android:id="@+id/et_mobileNo"
         android:hint="Mobile Number"
         android:padding="@dimen/padding_editText"
+        android:inputType="number"
         />
     <EditText
         android:layout_width="match_parent"
@@ -139,6 +141,7 @@
         android:id="@+id/et_alternateMobileNo"
         android:hint="Alternate Mobile Number"
         android:padding="@dimen/padding_editText"
+        android:inputType="number"
         />
     <EditText
         android:layout_width="match_parent"
