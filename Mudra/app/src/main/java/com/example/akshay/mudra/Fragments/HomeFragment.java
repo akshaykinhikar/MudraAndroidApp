@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.example.akshay.mudra.HomeActivity;
 import com.example.akshay.mudra.R;
 
 import java.util.ArrayList;
@@ -73,6 +76,7 @@ public class HomeFragment extends ListFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getActivity(), data.get(position).get("startYear"), Toast.LENGTH_SHORT).show();
+                ((HomeActivity)getActivity()).fragmentAccountsInterface();
             }
         });
     }
@@ -87,5 +91,9 @@ public class HomeFragment extends ListFragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public interface FragmentAccountsInterface{
+        void fragmentAccountsInterface();
     }
 }

@@ -30,7 +30,7 @@ import com.example.akshay.mudra.Fragments.HomeFragment;
 import com.example.akshay.mudra.Fragments.TransactionDetailFragment;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,HomeFragment.OnFragmentInteractionListener,AccountsFragment.OnFragmentInteractionListener, ActivitiesFragment.OnFragmentInteractionListener,EditAccountsFragment.OnFragmentInteractionListener,EventAccountingFragment.OnFragmentInteractionListener, AccountsFragment.FragmentTransactionInterface, EditAccountsFragment.EditAccountFragmentInterface {
+        implements NavigationView.OnNavigationItemSelectedListener,HomeFragment.OnFragmentInteractionListener,AccountsFragment.OnFragmentInteractionListener, ActivitiesFragment.OnFragmentInteractionListener,EditAccountsFragment.OnFragmentInteractionListener,EventAccountingFragment.OnFragmentInteractionListener, AccountsFragment.FragmentTransactionInterface, EditAccountsFragment.EditAccountFragmentInterface, HomeFragment.FragmentAccountsInterface {
 
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -223,7 +223,6 @@ public class HomeActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.homeFragment, new TransactionDetailFragment(), "homeFragment");
         fragmentTransaction.commit();
-
     }
 
     @Override
@@ -235,5 +234,13 @@ public class HomeActivity extends AppCompatActivity
         fragmentTransaction.commit();
         Log.d("msg", "Afteer Ataching editAccountFragmentInterface");
 
+    }
+
+    @Override
+    public void fragmentAccountsInterface() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.homeFragment, new AccountsFragment(), "homeFragment");
+        fragmentTransaction.commit();
     }
 }
