@@ -43,7 +43,7 @@ public class TransactionDetailFragment extends ListFragment {
         HashMap<String, String> map = new HashMap<String, String>();
         for(int i = 0; i < transaction_date.length; i++ ){
             map = new HashMap<String, String>();
-            map.put("transaction_type",transaction_type[i]);
+            map.put("transaction_type",transcd action_type[i]);
             map.put("transaction_date",transaction_date[i]);
             map.put("transaction_description",transaction_description[i]);
             data.add(map);

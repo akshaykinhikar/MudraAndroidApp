@@ -73,7 +73,7 @@ public class EditAccountsFragment extends ListFragment {
 
         try {
             if(Utility.isNetConnected(getContext())){
-                accountsReq.get("http://192.168.1.125:8000/show_account_details/", new JsonHttpResponseHandler(){
+                accountsReq.get("http://192.168.43.236:8000/show_account_details/", new JsonHttpResponseHandler(){
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         super.onSuccess(statusCode, headers, response);

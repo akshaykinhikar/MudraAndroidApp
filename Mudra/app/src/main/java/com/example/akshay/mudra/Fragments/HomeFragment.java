@@ -71,7 +71,7 @@ public class HomeFragment extends ListFragment {
         financial_year.setCookieStore(financial_yearCookies);
         try {
             if (Utility.isNetConnected(getContext())){
-                financial_year.get("http://192.168.1.125:8000/list_of_accounting_years/",new JsonHttpResponseHandler(){
+                financial_year.get("http://192.168.43.236:8000/list_of_accounting_years/",new JsonHttpResponseHandler(){
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         super.onSuccess(statusCode, headers, response);
