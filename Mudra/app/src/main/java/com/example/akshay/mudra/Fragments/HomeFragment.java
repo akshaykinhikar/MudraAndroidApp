@@ -21,6 +21,7 @@ import com.example.akshay.mudra.R;
 import com.example.akshay.mudra.Utility.Utility;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.PersistentCookieStore;
 
 import org.json.JSONObject;
 
@@ -62,14 +63,16 @@ public class HomeFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        AsyncHttpClient login = new AsyncHttpClient();
+        AsyncHttpClient financial_year = new AsyncHttpClient();
+        PersistentCookieStore financial_yearCookies = new PersistentCookieStore(getContext());
+        financial_year.setCookieStore(financial_yearCookies);
         try {
             if (Utility.isNetConnected(getContext())){
-                login.get("http://192.168.1.125:8000/list_of_accounting_years/",new JsonHttpResponseHandler(){
+                financial_year.get("http://192.168.1.125:8000/list_of_accounting_years/",new JsonHttpResponseHandler(){
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         super.onSuccess(statusCode, headers, response);
-                        Log.d("msg", "response" + response);
+                        Log.d("accYear", "response" + response);
                     }
 
                     @Override
