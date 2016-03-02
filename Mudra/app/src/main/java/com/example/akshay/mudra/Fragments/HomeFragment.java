@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +18,17 @@ import android.widget.Toast;
 
 import com.example.akshay.mudra.HomeActivity;
 import com.example.akshay.mudra.R;
+import com.example.akshay.mudra.Utility.Utility;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,10 +40,11 @@ import java.util.HashMap;
 public class HomeFragment extends ListFragment {
 
     ListView listView;
-    String[] accStartYear = {"1","2", "3","4"};
-    String[] accEndYear = {"1","2", "3","4"};
+    String[] accStartYear = {"1","2","3","4"};
+    String[] accEndYear = {"1","2","3","4"};
     ArrayList<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();
     SimpleAdapter adapter;
+    Context context;
 
 
     private OnFragmentInteractionListener mListener;
@@ -52,6 +62,29 @@ public class HomeFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        AsyncHttpClient login = new AsyncHttpClient();
+        try {
+            if (Utility.isNetConnected(getContext())){
+                login.get("http://192.168.1.125:8000/list_of_accounting_years/",new JsonHttpResponseHandler(){
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        super.onSuccess(statusCode, headers, response);
+                        Log.d("msg", "response" + response);
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        super.onFailure(statusCode, headers, responseString, throwable);
+                        Log.d("msg","Error Response" +responseString);
+                    }
+                });
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
         HashMap<String, String> map =  new HashMap<String,String>();
         for(int i =0; i<accStartYear.length; i++){
             map = new HashMap<String, String>();
