@@ -23,10 +23,12 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
@@ -41,9 +43,12 @@ import cz.msebera.android.httpclient.entity.StringEntity;
 public class HomeFragment extends ListFragment {
 
     ListView listView;
-    String[] accStartYear = {"1","2","3","4"};
-    String[] accEndYear = {"1","2","3","4"};
-    ArrayList<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();
+    List< Long> accStartYear = new ArrayList<>();
+    List< Long> accEndYear = new ArrayList<>();
+
+//    String[] accStartYear = ;
+//    String[] accEndYear;
+    ArrayList<HashMap<String, Long>> data = new ArrayList<HashMap<String, Long>>();
     SimpleAdapter adapter;
     Context context;
 
@@ -73,6 +78,24 @@ public class HomeFragment extends ListFragment {
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         super.onSuccess(statusCode, headers, response);
                         Log.d("accYear", "response" + response);
+                        try {
+                            int arrayLength = response.getJSONArray("AccYearsList").length();
+                            if (arrayLength != 0){
+
+                                for(int i=0;i< arrayLength ;i++)
+                                {
+                                    accStartYear.add(response.getJSONArray("AccYearsList").getJSONObject(i).getLong("start_date"));
+                                    accEndYear.add(response.getJSONArray("AccYearsList").getJSONObject(i).getLong("end_date"));
+
+                                    Log.d("accStartYear","" +accStartYear + accEndYear);
+                                    // process data here
+                                    setAccountYear();
+                                }
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override
@@ -88,11 +111,18 @@ public class HomeFragment extends ListFragment {
         }
 
 
-        HashMap<String, String> map =  new HashMap<String,String>();
-        for(int i =0; i<accStartYear.length; i++){
-            map = new HashMap<String, String>();
-            map.put("startYear",accStartYear[i]);
-            map.put("endYear",accEndYear[i]);
+
+
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_home, container, false);
+    }
+
+    public void setAccountYear(){
+        HashMap<String, Long> map =  new HashMap<String,Long>();
+        for(int i =0; i<accStartYear.size(); i++){
+            map = new HashMap<String, Long>();
+            map.put("startYear",accStartYear.get(i));
+            map.put("endYear",accEndYear.get(i));
             data.add(map);
         }
 
@@ -100,9 +130,6 @@ public class HomeFragment extends ListFragment {
         int[] to = {R.id.start_date, R.id.end_date};
         adapter = new SimpleAdapter(getActivity(), data, R.layout.accounting_year_item, from, to);
         setListAdapter(adapter);
-
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override
@@ -111,7 +138,7 @@ public class HomeFragment extends ListFragment {
         getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), data.get(position).get("startYear"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), ""+data.get(position).get("startYear"), Toast.LENGTH_SHORT).show();
                 ((HomeActivity)getActivity()).fragmentAccountsInterface();
             }
         });
