@@ -4,8 +4,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,12 +24,12 @@ import com.loopj.android.http.PersistentCookieStore;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.entity.StringEntity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,7 +46,7 @@ public class HomeFragment extends ListFragment {
 
 //    String[] accStartYear = ;
 //    String[] accEndYear;
-    ArrayList<HashMap<String, Long>> data = new ArrayList<HashMap<String, Long>>();
+    ArrayList<HashMap<String, Date>> data = new ArrayList<>();
     SimpleAdapter adapter;
     Context context;
 
@@ -87,10 +85,10 @@ public class HomeFragment extends ListFragment {
                                     accStartYear.add(response.getJSONArray("AccYearsList").getJSONObject(i).getLong("start_date"));
                                     accEndYear.add(response.getJSONArray("AccYearsList").getJSONObject(i).getLong("end_date"));
 
-                                    Log.d("accStartYear","" +accStartYear + accEndYear);
+                                    Log.d("accStartYear", "" + accStartYear + accEndYear);
                                     // process data here
-                                    setAccountYear();
                                 }
+                                setAccountYear();
 
                             }
                         } catch (JSONException e) {
@@ -118,11 +116,13 @@ public class HomeFragment extends ListFragment {
     }
 
     public void setAccountYear(){
-        HashMap<String, Long> map =  new HashMap<String,Long>();
-        for(int i =0; i<accStartYear.size(); i++){
-            map = new HashMap<String, Long>();
-            map.put("startYear",accStartYear.get(i));
-            map.put("endYear",accEndYear.get(i));
+        HashMap<String, Date> map =  new HashMap<>();
+        map = new HashMap<>();
+        Log.d("acc","Size " + accStartYear.size());
+        for(int i = 0; i < accStartYear.size(); i++){
+            map.put("startYear", new Date(accStartYear.get(i)));
+            map.put("endYear", new Date(accEndYear.get(i)));
+//            map.put("endYear",accEndYear.get(i));
             data.add(map);
         }
 
