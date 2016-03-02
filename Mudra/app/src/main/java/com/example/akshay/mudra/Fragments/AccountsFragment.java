@@ -71,8 +71,9 @@ public class AccountsFragment extends ListFragment {
                                     account_name.add(response.getJSONArray("accountList").getJSONObject(i).getString("account_name"));
                                     account_amount.add(response.getJSONArray("accountList").getJSONObject(i).getString("amount"));
                                     Log.d("acc_fra", "" + account_name + account_amount);
-                                    setAccountsDetail();
+
                                 }
+                                setAccountsDetail();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
