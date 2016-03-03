@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,8 @@ public class TransactionDetailFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        String strtext = getArguments().getString("data");
+        Log.d("msg","data from activity" + strtext);
         HashMap<String, String> map = new HashMap<String, String>();
         for(int i = 0; i < transaction_date.length; i++ ){
             map = new HashMap<String, String>();

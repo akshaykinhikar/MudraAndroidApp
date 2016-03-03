@@ -121,14 +121,7 @@ public class AccountsFragment extends ListFragment {
         setListAdapter(adapter);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
-
-
+ 
     @Override
     public void onStart() {
 
@@ -140,7 +133,8 @@ public class AccountsFragment extends ListFragment {
 
                 Toast.makeText(getActivity(), data.get(position).get("id") , Toast.LENGTH_SHORT).show();
                 Log.d("acc_fra", "myAccount");
-                ((HomeActivity)getActivity()).fragmentTransactionInterface();
+                ((HomeActivity)getActivity()).onFragmentInteraction(data.get(position).get("id"));
+                ((HomeActivity) getActivity()).fragmentTransactionInterface();
 
             }
         });

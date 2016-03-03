@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -42,11 +43,13 @@ public class HomeActivity extends AppCompatActivity
 
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+    String dataFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
 
         //Fragment attached
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -221,15 +224,22 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onFragmentInteraction(String obj) {
+        dataFragment = obj;
 
     }
 
 
+
+
     @Override
     public void fragmentTransactionInterface() {
+        Bundle bundle = new Bundle();
+        bundle.putString("data", dataFragment);
+        Fragment transactionDetailFragment = new TransactionDetailFragment();
+        transactionDetailFragment.setArguments(bundle);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.homeFragment, new TransactionDetailFragment(), "homeFragment");
+        fragmentTransaction.replace(R.id.homeFragment, transactionDetailFragment, "homeFragment");
         fragmentTransaction.commit();
     }
 
