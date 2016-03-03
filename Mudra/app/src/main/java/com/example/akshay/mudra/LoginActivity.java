@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     try {
                         if (Utility.isNetConnected(getApplicationContext())) {
-                            login.post(LoginActivity.this, "http://192.168.43.236:8000/user_login/", new StringEntity(jsonobj.toString()),
+                            login.post(LoginActivity.this, " http://192.168.1.125:8000/user_login/", new StringEntity(jsonobj.toString()),
                                     "application/json", new JsonHttpResponseHandler() {
                                         @Override
                                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
