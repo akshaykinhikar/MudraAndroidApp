@@ -42,6 +42,7 @@ public class AccountsFragment extends ListFragment {
     private OnFragmentInteractionListener mListener;
     List<String> account_name = new ArrayList<>();
     List<String> account_amount = new ArrayList<>();
+    List<Integer> id = new ArrayList<>();
 
     ArrayList<HashMap <String, String>> data = new ArrayList<HashMap<String, String>>();
     SimpleAdapter adapter;
@@ -70,7 +71,8 @@ public class AccountsFragment extends ListFragment {
                                 for (int i = 0; i < arrayLength; i++) {
                                     account_name.add(response.getJSONArray("accountList").getJSONObject(i).getString("account_name"));
                                     account_amount.add(response.getJSONArray("accountList").getJSONObject(i).getString("amount"));
-                                    Log.d("acc_fra", "" + account_name + account_amount);
+                                    id.add((Integer) response.getJSONArray("accountList").getJSONObject(i).get("id"));
+                                    Log.d("acc_fra", "" + account_name + account_amount + id);
 
                                 }
                                 setAccountsDetail();
@@ -106,6 +108,7 @@ public class AccountsFragment extends ListFragment {
             map = new HashMap<String, String>();
             map.put("acc_name",account_name.get(i));
             map.put("acc_amount",account_amount.get(i));
+            map.put("id",id.get(i).toString());
             data.add(map);
         }
 
@@ -145,8 +148,8 @@ public class AccountsFragment extends ListFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Toast.makeText(getActivity(), data.get(position).get("years") , Toast.LENGTH_SHORT).show();
-                Log.d("msg", "myAccount");
+                Toast.makeText(getActivity(), data.get(position).get("id") , Toast.LENGTH_SHORT).show();
+                Log.d("acc_fra", "myAccount");
                 ((HomeActivity)getActivity()).fragmentTransactionInterface();
 
             }
