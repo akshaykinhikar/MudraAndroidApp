@@ -16,6 +16,9 @@ import android.widget.Toast;
 
 import com.example.akshay.mudra.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -42,7 +45,14 @@ public class TransactionDetailFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         String strtext = getArguments().getString("data");
-        Log.d("msg","data from activity" + strtext);
+        try {
+            JSONObject ObjectFromActivity = new JSONObject(strtext);
+            String id = (String) ObjectFromActivity.get("id");
+            Log.d("msg","data from activity" + id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         HashMap<String, String> map = new HashMap<String, String>();
         for(int i = 0; i < transaction_date.length; i++ ){
             map = new HashMap<String, String>();

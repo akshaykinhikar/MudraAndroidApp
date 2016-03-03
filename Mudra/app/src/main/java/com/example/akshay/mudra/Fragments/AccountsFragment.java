@@ -42,6 +42,7 @@ public class AccountsFragment extends ListFragment {
 //    private OnFragmentInteractionListener mListener;
     List<String> account_name = new ArrayList<>();
     List<String> account_amount = new ArrayList<>();
+    
     List<Integer> id = new ArrayList<>();
 
     ArrayList<HashMap <String, String>> data = new ArrayList<HashMap<String, String>>();
@@ -109,6 +110,7 @@ public class AccountsFragment extends ListFragment {
             map.put("acc_name",account_name.get(i));
             map.put("acc_amount",account_amount.get(i));
             map.put("id",id.get(i).toString());
+
             data.add(map);
         }
 
@@ -132,8 +134,15 @@ public class AccountsFragment extends ListFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Toast.makeText(getActivity(), data.get(position).get("id") , Toast.LENGTH_SHORT).show();
+                JSONObject ObjToActivity =  new JSONObject();
+                try {
+                    ObjToActivity.put("id",data.get(position).get("id"));
+                } catch (JSONException e) {
+                    Log.i("acc_frag","data empty");
+                    e.printStackTrace();
+                }
                 Log.d("acc_fra", "myAccount");
-                ((HomeActivity)getActivity()).onFragmentInteraction(data.get(position).get("id"));
+                ((HomeActivity)getActivity()).onFragmentInteraction(ObjToActivity.toString());
                 ((HomeActivity) getActivity()).fragmentTransactionInterface();
 
             }
