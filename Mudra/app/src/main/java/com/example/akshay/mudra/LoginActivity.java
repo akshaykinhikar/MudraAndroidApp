@@ -39,17 +39,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d("msg", "login Button Clicked");
-                String username = userName.getText().toString();
-                String password = passwd.getText().toString();
+                String username = "akshay123";//userName.getText().toString();
+                String password = "lorem123";//passwd.getText().toString();
 
                 JSONObject jsonobj = new JSONObject();
                 try {
                     jsonobj.put("username", username);
                     jsonobj.put("password", password);
 
-
                     //for cookies
-
                     AsyncHttpClient login = new AsyncHttpClient();
                     myCookieStore = new PersistentCookieStore(LoginActivity.this);
                     login.setCookieStore(myCookieStore);
@@ -68,11 +66,9 @@ public class LoginActivity extends AppCompatActivity {
                                                 Log.d("Ex1",""+c.getValue());  //sessionID
                                             }
                                             try {
-
                                                 if (response.getBoolean("status")) {
                                                     Intent i = new Intent(LoginActivity.this, HomeActivity.class);
                                                     startActivity(i);
-
                                                 } else {
                                                     Log.d("msg", "In Invalid Credential");
                                                     Toast.makeText(getApplication(), "Invalid Credentials, Please Try Again", Toast.LENGTH_SHORT).show();
