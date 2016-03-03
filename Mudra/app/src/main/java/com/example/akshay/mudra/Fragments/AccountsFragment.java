@@ -39,7 +39,7 @@ import cz.msebera.android.httpclient.Header;
  */
 public class AccountsFragment extends ListFragment {
     ListView listView;
-    private OnFragmentInteractionListener mListener;
+//    private OnFragmentInteractionListener mListener;
     List<String> account_name = new ArrayList<>();
     List<String> account_amount = new ArrayList<>();
     List<Integer> id = new ArrayList<>();
@@ -122,22 +122,12 @@ public class AccountsFragment extends ListFragment {
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+//    public void onButtonPressed(Uri uri) {
+//        if (mListener != null) {
+//            mListener.onFragmentInteraction(uri);
+//        }
+//    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
 
     @Override
     public void onStart() {
@@ -158,12 +148,6 @@ public class AccountsFragment extends ListFragment {
 
     public interface FragmentTransactionInterface{
         void fragmentTransactionInterface();
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
     }
 
         public interface OnFragmentInteractionListener {
