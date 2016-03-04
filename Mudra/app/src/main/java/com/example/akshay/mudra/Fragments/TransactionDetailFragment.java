@@ -48,6 +48,7 @@ public class TransactionDetailFragment extends ListFragment {
         try {
             JSONObject ObjectFromActivity = new JSONObject(strtext);
             String id = (String) ObjectFromActivity.get("id");
+
             Log.d("msg","data from activity" + id);
         } catch (JSONException e) {
             e.printStackTrace();

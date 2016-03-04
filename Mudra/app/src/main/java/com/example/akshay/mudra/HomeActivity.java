@@ -229,8 +229,6 @@ public class HomeActivity extends AppCompatActivity
     }
 
 
-
-
     @Override
     public void fragmentTransactionInterface() {
         Bundle bundle = new Bundle();

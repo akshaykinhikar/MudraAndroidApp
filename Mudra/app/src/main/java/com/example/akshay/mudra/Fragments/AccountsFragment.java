@@ -42,8 +42,8 @@ public class AccountsFragment extends ListFragment {
 //    private OnFragmentInteractionListener mListener;
     List<String> account_name = new ArrayList<>();
     List<String> account_amount = new ArrayList<>();
-    
     List<Integer> id = new ArrayList<>();
+
 
     ArrayList<HashMap <String, String>> data = new ArrayList<HashMap<String, String>>();
     SimpleAdapter adapter;
@@ -73,8 +73,8 @@ public class AccountsFragment extends ListFragment {
                                     account_name.add(response.getJSONArray("accountList").getJSONObject(i).getString("account_name"));
                                     account_amount.add(response.getJSONArray("accountList").getJSONObject(i).getString("amount"));
                                     id.add((Integer) response.getJSONArray("accountList").getJSONObject(i).get("id"));
-                                    Log.d("acc_fra", "" + account_name + account_amount + id);
 
+                                    Log.d("acc_fra", "in For " + account_name + account_amount + id);
                                 }
                                 setAccountsDetail();
                             }
@@ -137,6 +137,7 @@ public class AccountsFragment extends ListFragment {
                 JSONObject ObjToActivity =  new JSONObject();
                 try {
                     ObjToActivity.put("id",data.get(position).get("id"));
+                    ObjToActivity.put("start_date",data.get(position).get("start_date"));
                 } catch (JSONException e) {
                     Log.i("acc_frag","data empty");
                     e.printStackTrace();
