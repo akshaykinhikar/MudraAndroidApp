@@ -10,10 +10,10 @@
         android:layout_height="match_parent"
         android:text= "Transaction Fragment" />
 
-    <ListView
+    <ExpandableListView
+        android:id="@+id/lvExp"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:id="@android:id/list"
-        android:layout_height="wrap_content">
-    </ListView>
+        android:cacheColorHint="#00000000"/>
 
 </FrameLayout>
