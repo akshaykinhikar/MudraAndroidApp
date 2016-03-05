@@ -125,26 +125,6 @@ public class TransactionDetailFragment extends Fragment {
         // preparing list data
         //prepareListData();
 
-
-        List<ParentClass> parentClasses = new ArrayList<>();
-        parentClasses.add(new ParentClass("Saving","12 JAN 2014"));
-        parentClasses.add(new ParentClass("Current","15 JAN 2014"));
-        parentClasses.add(new ParentClass("Saving","22 JAN 2014"));
-
-        List<ChildClass> childClasses = new ArrayList<>();
-        List<AssociatedAccounts> associatedAccountses = new ArrayList<>();
-        associatedAccountses.add(new AssociatedAccounts("Nishant's Account","1000","Debit"));
-        associatedAccountses.add(new AssociatedAccounts("Vinay's Account","2000","Debit"));
-        associatedAccountses.add(new AssociatedAccounts("Akshay's Account","3000","Credit"));
-
-        childClasses.add(new ChildClass(associatedAccountses));
-        childClasses.add(new ChildClass(associatedAccountses));
-        childClasses.add(new ChildClass(associatedAccountses));
-
-
-
-
-
         // Inflate the layout for this fragment
         return view;
     }
@@ -280,59 +260,7 @@ public class TransactionDetailFragment extends Fragment {
         }
     }
 
-    public class ParentClass{
-        public String getTranAccountType() {
-            return tranAccountType;
-        }
 
-        public ParentClass(String tranAccountType,String tranAccountDate ){
-            this.tranAccountDate = tranAccountDate;
-            this.tranAccountType = tranAccountType;
-        }
-
-        public String getTranAccountDate() {
-            return tranAccountDate;
-        }
-
-        private String tranAccountType;
-        private String tranAccountDate;
-    }
-
-//    ++++++++++++++++++++++++++++++++++++++++++
-    public class ChildClass{
-
-    private List<AssociatedAccounts> associatedAccountsList = new ArrayList<>();
-
-    public ChildClass(List<AssociatedAccounts> associatedAccountses){
-        this.associatedAccountsList = associatedAccountses;
-    }
-    }
-
-    public class AssociatedAccounts{
-        private String account;
-        private  String amount;
-        private  String credit_debit;
-
-        public String getAccount() {
-            return account;
-        }
-
-        public String getAmount() {
-            return amount;
-        }
-
-        public String getCredit_debit() {
-            return credit_debit;
-        }
-
-        public AssociatedAccounts(String account, String amount, String credit_debit ){
-            this.account = account;
-            this.amount = amount;
-            this.credit_debit = credit_debit;
-
-
-        }
-    }
 
 
 }
