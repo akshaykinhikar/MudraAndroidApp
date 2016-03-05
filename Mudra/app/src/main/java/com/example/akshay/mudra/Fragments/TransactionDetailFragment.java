@@ -28,12 +28,14 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -88,7 +90,13 @@ public class TransactionDetailFragment extends Fragment {
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                     super.onSuccess(statusCode, headers, response);
-                                     Log.d("msg", "onSuccess" + response + statusCode);
+                                    try {
+                                        setData(response.getJSONArray("transactionList"));
+                                        Log.d("msg", "onSuccess" + response.toString(4));
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
 
                                 @Override
@@ -134,61 +142,19 @@ public class TransactionDetailFragment extends Fragment {
         childClasses.add(new ChildClass(associatedAccountses));
 
 
-        listAdapter = new ExpandableListAdapter(parentClasses,childClasses);
 
-        // setting list adapter
-        expListView.setAdapter(listAdapter);
 
 
         // Inflate the layout for this fragment
         return view;
     }
 
-    
+    public void setData(JSONArray data){
+        listAdapter = new ExpandableListAdapter(data);
 
-
-    /*
- * Preparing the list data
- */
-    private void prepareListData() {
-        listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<String>>();
-
-        // Adding child data
-        listDataHeader.add("Top 250");
-        listDataHeader.add("Now Showing");
-        listDataHeader.add("Coming Soon..");
-
-        // Adding child data
-        List<String> top250 = new ArrayList<String>();
-        top250.add("The Shawshank Redemption");
-        top250.add("The Godfather");
-        top250.add("The Godfather: Part II");
-        top250.add("Pulp Fiction");
-        top250.add("The Good, the Bad and the Ugly");
-        top250.add("The Dark Knight");
-        top250.add("12 Angry Men");
-
-        List<String> nowShowing = new ArrayList<String>();
-        nowShowing.add("The Conjuring");
-        nowShowing.add("Despicable Me 2");
-        nowShowing.add("Turbo");
-        nowShowing.add("Grown Ups 2");
-        nowShowing.add("Red 2");
-        nowShowing.add("The Wolverine");
-
-        List<String> comingSoon = new ArrayList<String>();
-        comingSoon.add("2 Guns");
-        comingSoon.add("The Smurfs 2");
-        comingSoon.add("The Spectacular Now");
-        comingSoon.add("The Canyons");
-        comingSoon.add("Europa Report");
-
-        listDataChild.put(listDataHeader.get(0), top250); // Header, Child data
-        listDataChild.put(listDataHeader.get(1), nowShowing);
-        listDataChild.put(listDataHeader.get(2), comingSoon);
+        // setting list adapter
+        expListView.setAdapter(listAdapter);
     }
-
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
@@ -200,15 +166,12 @@ public class TransactionDetailFragment extends Fragment {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
-        private List<ParentClass> parentClasses;
-        private List<ChildClass> childClasses;
+     private JSONArray data;
 
 
 
-        public ExpandableListAdapter(List<ParentClass> parentClasses,List<ChildClass> childClasses) {
-            this.parentClasses = parentClasses;
-            this.childClasses = childClasses;
-
+        public ExpandableListAdapter(JSONArray data) {
+            this.data = data;
         }
 
         @Override
@@ -227,11 +190,24 @@ public class TransactionDetailFragment extends Fragment {
 
             TextView credit_debit = (TextView) convertView.findViewById(R.id.lblListItem_deb_cred);
 
-            accnt.setText(childClasses.get(groupPosition).associatedAccountsList.get(childPosition).getAccount());
+            try {
+                accnt.setText(
+                        data.getJSONObject(groupPosition).getJSONArray("transaction_record_list")
+                .getJSONObject(childPosition).getString("account_name"));
 
-            amt.setText(childClasses.get(groupPosition).associatedAccountsList.get(childPosition).getAmount());
+                amt.setText(
+                        data.getJSONObject(groupPosition).getJSONArray("transaction_record_list")
+                                .getJSONObject(childPosition).getInt("amount")+""
+                );
 
-            credit_debit.setText(childClasses.get(groupPosition).associatedAccountsList.get(childPosition).getCredit_debit());
+                credit_debit.setText(
+                        data.getJSONObject(groupPosition).getJSONArray("transaction_record_list")
+                                .getJSONObject(childPosition).getBoolean("is_debit")
+                        ? "True" : "False"
+                );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             return convertView;
         }
@@ -243,12 +219,17 @@ public class TransactionDetailFragment extends Fragment {
 
         @Override
         public int getGroupCount() {
-            return parentClasses.size();
+            return data.length();
         }
 
         @Override
         public int getChildrenCount(int groupPosition) {
-            return childClasses.size();
+            try {
+                return data.getJSONObject(groupPosition).getJSONArray("transaction_record_list").length();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return 0;
         }
 
         @Override
@@ -288,8 +269,12 @@ public class TransactionDetailFragment extends Fragment {
                     .findViewById(R.id.lblListHeader_t_type);
             TextView date = (TextView) convertView.findViewById(R.id.lblListHeader_t_date);
             lblListHeader.setTypeface(null, Typeface.BOLD);
-            lblListHeader.setText(parentClasses.get(groupPosition).getTranAccountType());
-            date.setText(parentClasses.get(groupPosition).getTranAccountDate());
+            try {
+                lblListHeader.setText(data.getJSONObject(groupPosition).getString("transactiontype"));
+                date.setText(new Date(data.getJSONObject(groupPosition).getLong("transaction_date")).toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
             return convertView;
         }
