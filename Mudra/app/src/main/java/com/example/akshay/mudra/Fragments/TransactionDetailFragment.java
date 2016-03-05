@@ -50,8 +50,14 @@ public class TransactionDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
+        String strtext = getArguments().getString("data");
+        try {
+            JSONObject ObjectFromActivity = new JSONObject(strtext);
+            String id = (String) ObjectFromActivity.get("id");
+            Log.d("msg","data from activity" + id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         View view = inflater.inflate(R.layout.fragment_transaction_detail, container, false);
         // get the listview
         expListView = (ExpandableListView) view.findViewById(R.id.lvExp);
