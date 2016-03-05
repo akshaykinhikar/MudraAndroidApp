@@ -332,7 +332,7 @@ public class TransactionDetailFragment extends Fragment {
             }
 
             TextView lblListHeader = (TextView) convertView
-                    .findViewById(R.id.lblListHeader);
+                    .findViewById(R.id.lblListHeader_t_type);
             lblListHeader.setTypeface(null, Typeface.BOLD);
             lblListHeader.setText(headerTitle);
 
