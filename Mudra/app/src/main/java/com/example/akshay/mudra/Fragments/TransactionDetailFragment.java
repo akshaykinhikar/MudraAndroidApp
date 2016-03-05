@@ -103,27 +103,6 @@ public class TransactionDetailFragment extends Fragment {
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //            +++++++++++++++++++++++++++++++++++++++++++++++++
 
 
@@ -294,7 +273,7 @@ public class TransactionDetailFragment extends Fragment {
             }
 
             TextView txtListChild = (TextView) convertView
-                    .findViewById(R.id.lblListItem);
+                    .findViewById(R.id.lblListItem_acc);
 
             txtListChild.setText(childText);
             return convertView;
