@@ -30,6 +30,7 @@ import com.loopj.android.http.PersistentCookieStore;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -114,9 +115,26 @@ public class TransactionDetailFragment extends Fragment {
         expListView = (ExpandableListView) view.findViewById(R.id.lvExp);
 
         // preparing list data
-        prepareListData();
+        //prepareListData();
 
-        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
+
+        List<ParentClass> parentClasses = new ArrayList<>();
+        parentClasses.add(new ParentClass("Saving","12 JAN 2014"));
+        parentClasses.add(new ParentClass("Current","15 JAN 2014"));
+        parentClasses.add(new ParentClass("Saving","22 JAN 2014"));
+
+        List<ChildClass> childClasses = new ArrayList<>();
+        List<AssociatedAccounts> associatedAccountses = new ArrayList<>();
+        associatedAccountses.add(new AssociatedAccounts("Nishant's Account","1000","Debit"));
+        associatedAccountses.add(new AssociatedAccounts("Vinay's Account","2000","Debit"));
+        associatedAccountses.add(new AssociatedAccounts("Akshay's Account","3000","Credit"));
+
+        childClasses.add(new ChildClass(associatedAccountses));
+        childClasses.add(new ChildClass(associatedAccountses));
+        childClasses.add(new ChildClass(associatedAccountses));
+
+
+        listAdapter = new ExpandableListAdapter(parentClasses,childClasses);
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
@@ -125,6 +143,9 @@ public class TransactionDetailFragment extends Fragment {
         // Inflate the layout for this fragment
         return view;
     }
+
+    
+
 
     /*
  * Preparing the list data
@@ -174,148 +195,80 @@ public class TransactionDetailFragment extends Fragment {
         void onFragmentInteraction(String obj);
     }
 
-    @Override
-    public void onStart() {
-        // Listview Group click listener
-        expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-
-            @Override
-            public boolean onGroupClick(ExpandableListView parent, View v,
-                                        int groupPosition, long id) {
-                // Toast.makeText(getApplicationContext(),
-                // "Group Clicked " + listDataHeader.get(groupPosition),
-                // Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
-
-        // Listview Group expanded listener
-        expListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-
-            @Override
-            public void onGroupExpand(int groupPosition) {
-                Toast.makeText(getActivity(),
-                        listDataHeader.get(groupPosition) + " Expanded",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // Listview Group collasped listener
-        expListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-
-            @Override
-            public void onGroupCollapse(int groupPosition) {
-                Toast.makeText(getActivity(),
-                        listDataHeader.get(groupPosition) + " Collapsed",
-                        Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        // Listview on child click listener
-        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v,
-                                        int groupPosition, int childPosition, long id) {
-                // TODO Auto-generated method stub
-                Toast.makeText(
-                        getActivity(),
-                        listDataHeader.get(groupPosition)
-                                + " : "
-                                + listDataChild.get(
-                                listDataHeader.get(groupPosition)).get(
-                                childPosition), Toast.LENGTH_SHORT)
-                        .show();
-                return false;
-            }
-        });
-        super.onStart();
-    }
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//    +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
-        private Context _context;
-        private List<String> _listDataHeader; // header titles
-        // child data in format of header title, child title
-        private HashMap<String, List<String>> _listDataChild;
+        private List<ParentClass> parentClasses;
+        private List<ChildClass> childClasses;
 
-        public ExpandableListAdapter(Context context, List<String> listDataHeader,
-                                     HashMap<String, List<String>> listChildData) {
-            this._context = context;
-            this._listDataHeader = listDataHeader;
-            this._listDataChild = listChildData;
-        }
 
-        @Override
-        public Object getChild(int groupPosition, int childPosititon) {
-            return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                    .get(childPosititon);
-        }
 
-        @Override
-        public long getChildId(int groupPosition, int childPosition) {
-            return childPosition;
+        public ExpandableListAdapter(List<ParentClass> parentClasses,List<ChildClass> childClasses) {
+            this.parentClasses = parentClasses;
+            this.childClasses = childClasses;
+
         }
 
         @Override
         public View getChildView(int groupPosition, final int childPosition,
                                  boolean isLastChild, View convertView, ViewGroup parent) {
 
-            final String childText = (String) getChild(groupPosition, childPosition);
-
             if (convertView == null) {
-                LayoutInflater infalInflater = (LayoutInflater) this._context
-                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = infalInflater.inflate(R.layout.transaction_item, null);
+
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.transaction_item, null);
             }
 
-            TextView txtListChild = (TextView) convertView
+            TextView accnt = (TextView) convertView
                     .findViewById(R.id.lblListItem_acc);
 
-            txtListChild.setText(childText);
+            TextView amt = (TextView) convertView.findViewById(R.id.lblListItem_amt);
+
+            TextView credit_debit = (TextView) convertView.findViewById(R.id.lblListItem_deb_cred);
+
+            accnt.setText(childClasses.get(groupPosition).associatedAccountsList.get(childPosition).getAccount());
+
+            amt.setText(childClasses.get(groupPosition).associatedAccountsList.get(childPosition).getAmount());
+
+            credit_debit.setText(childClasses.get(groupPosition).associatedAccountsList.get(childPosition).getCredit_debit());
+
             return convertView;
         }
 
         @Override
-        public int getChildrenCount(int groupPosition) {
-            return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                    .size();
-        }
-
-        @Override
-        public Object getGroup(int groupPosition) {
-            return this._listDataHeader.get(groupPosition);
+        public boolean isChildSelectable(int groupPosition, int childPosition) {
+            return false;
         }
 
         @Override
         public int getGroupCount() {
-            return this._listDataHeader.size();
+            return parentClasses.size();
+        }
+
+        @Override
+        public int getChildrenCount(int groupPosition) {
+            return childClasses.size();
+        }
+
+        @Override
+        public Object getGroup(int groupPosition) {
+            return null;
+        }
+
+        @Override
+        public Object getChild(int groupPosition, int childPosition) {
+            return null;
         }
 
         @Override
         public long getGroupId(int groupPosition) {
-            return groupPosition;
+            return 0;
         }
 
         @Override
-        public View getGroupView(int groupPosition, boolean isExpanded,
-                                 View convertView, ViewGroup parent) {
-            String headerTitle = (String) getGroup(groupPosition);
-            if (convertView == null) {
-                LayoutInflater infalInflater = (LayoutInflater) this._context
-                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = infalInflater.inflate(R.layout.transaction_list_group, null);
-            }
-
-            TextView lblListHeader = (TextView) convertView
-                    .findViewById(R.id.lblListHeader_t_type);
-            lblListHeader.setTypeface(null, Typeface.BOLD);
-            lblListHeader.setText(headerTitle);
-
-            return convertView;
+        public long getChildId(int groupPosition, int childPosition) {
+            return 0;
         }
 
         @Override
@@ -324,9 +277,77 @@ public class TransactionDetailFragment extends Fragment {
         }
 
         @Override
-        public boolean isChildSelectable(int groupPosition, int childPosition) {
-            return true;
+        public View getGroupView(int groupPosition, boolean isExpanded,
+                                 View convertView, ViewGroup parent) {
+
+            if (convertView == null) {
+                convertView = LayoutInflater.from(getActivity()).inflate(R.layout.transaction_list_group, null);
+            }
+
+            TextView lblListHeader = (TextView) convertView
+                    .findViewById(R.id.lblListHeader_t_type);
+            TextView date = (TextView) convertView.findViewById(R.id.lblListHeader_t_date);
+            lblListHeader.setTypeface(null, Typeface.BOLD);
+            lblListHeader.setText(parentClasses.get(groupPosition).getTranAccountType());
+            date.setText(parentClasses.get(groupPosition).getTranAccountDate());
+
+            return convertView;
+        }
+    }
+
+    public class ParentClass{
+        public String getTranAccountType() {
+            return tranAccountType;
         }
 
+        public ParentClass(String tranAccountType,String tranAccountDate ){
+            this.tranAccountDate = tranAccountDate;
+            this.tranAccountType = tranAccountType;
+        }
+
+        public String getTranAccountDate() {
+            return tranAccountDate;
+        }
+
+        private String tranAccountType;
+        private String tranAccountDate;
     }
+
+//    ++++++++++++++++++++++++++++++++++++++++++
+    public class ChildClass{
+
+    private List<AssociatedAccounts> associatedAccountsList = new ArrayList<>();
+
+    public ChildClass(List<AssociatedAccounts> associatedAccountses){
+        this.associatedAccountsList = associatedAccountses;
+    }
+    }
+
+    public class AssociatedAccounts{
+        private String account;
+        private  String amount;
+        private  String credit_debit;
+
+        public String getAccount() {
+            return account;
+        }
+
+        public String getAmount() {
+            return amount;
+        }
+
+        public String getCredit_debit() {
+            return credit_debit;
+        }
+
+        public AssociatedAccounts(String account, String amount, String credit_debit ){
+            this.account = account;
+            this.amount = amount;
+            this.credit_debit = credit_debit;
+
+
+        }
+    }
+
+
 }
