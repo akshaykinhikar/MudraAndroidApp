@@ -1,6 +1,7 @@
 package com.example.akshay.mudra.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,14 +20,25 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.akshay.mudra.HomeActivity;
+import com.example.akshay.mudra.LoginActivity;
 import com.example.akshay.mudra.R;
+import com.example.akshay.mudra.Utility.Utility;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.PersistentCookieStore;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.cookie.Cookie;
+import cz.msebera.android.httpclient.entity.StringEntity;
 
 
 public class TransactionDetailFragment extends Fragment {
@@ -54,8 +66,68 @@ public class TransactionDetailFragment extends Fragment {
         try {
             JSONObject ObjectFromActivity = new JSONObject(strtext);
             String id = (String) ObjectFromActivity.get("id");
-            Log.d("msg","data from activity" + id);
-        } catch (JSONException e) {
+            Log.d("msg", "data from activity" + id);
+            JSONObject getTransacDetailObj = new JSONObject();
+            getTransacDetailObj.put("account_id", id);
+            getTransacDetailObj.put("start_date", JSONObject.NULL);
+
+//            +++++++++++++++++++++++++++++++++++++++++++++++
+//            ++++++ REQ For Getting Transaction Data +++++++
+//            +++++++++++++++++++++++++++++++++++++++++++++++
+            //for cookies
+            AsyncHttpClient login = new AsyncHttpClient();
+            PersistentCookieStore tranCookies = new PersistentCookieStore(getContext());
+            login.setCookieStore(tranCookies);
+//            myCookieStore = new PersistentCookieStore(getActivity());
+//            login.setCookieStore(myCookieStore);
+            try {
+                if (Utility.isNetConnected(getContext())) {
+                    login.post(getActivity(), "http://192.168.1.125:8000/show_transactions_of_single_account/", new StringEntity(getTransacDetailObj.toString()),
+                            "application/json", new JsonHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                    super.onSuccess(statusCode, headers, response);
+                                     Log.d("msg", "onSuccess" + response + statusCode);
+                                }
+
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                    super.onFailure(statusCode, headers, responseString, throwable);
+                                    Log.d("msg", "onFailure" + responseString + statusCode);
+                                }
+                            });
+                } else {
+                    Toast.makeText(getActivity(), "Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+                }
+
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//            +++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+       } catch (JSONException e) {
             e.printStackTrace();
         }
         View view = inflater.inflate(R.layout.fragment_transaction_detail, container, false);
