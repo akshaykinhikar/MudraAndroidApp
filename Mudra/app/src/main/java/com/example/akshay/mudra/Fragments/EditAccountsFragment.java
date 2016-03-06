@@ -45,23 +45,6 @@ public class EditAccountsFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//
-//
-//
-//
-//        HashMap<String, String> map = new HashMap<String, String>();
-//        for(int i=0; i<Acc.length; i++){
-//            map = new HashMap<String, String>();
-//            map.put("acc", Acc[i]);
-//            map.put("amount", Amount[i]);
-//            data.add(map);
-//        }
-//
-//        String[] from = {"acc", "amount"};
-//        int[] to ={R.id.acc_name, R.id.acc_amount};
-//        adapter = new SimpleAdapter(getActivity(), data, R.layout.account_list_for_edit, from, to);
-//        setListAdapter(adapter);
-
       }
 
     @Override
