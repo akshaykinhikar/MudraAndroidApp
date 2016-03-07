@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.example.akshay.mudra.HomeActivity;
+import com.example.akshay.mudra.MainActivity;
 import com.example.akshay.mudra.R;
 import com.example.akshay.mudra.Utility.Utility;
 import com.loopj.android.http.AsyncHttpClient;
@@ -54,7 +55,7 @@ public class EditAccountsFormFragment extends Fragment {
 //        +++++++++++ Spinner Starts ++++++++
         Spinner spinner = (Spinner) view.findViewById(R.id.spinner_groupname);
         // Spinner click listener
-//        spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) getActivity());
+//        spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) spinner);
 
         // Spinner Drop down elements
         List<String> categories = new ArrayList<String>();
