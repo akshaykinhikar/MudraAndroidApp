@@ -8,6 +8,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.example.akshay.mudra.HomeActivity;
 import com.example.akshay.mudra.R;
@@ -21,6 +24,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
@@ -43,6 +48,33 @@ public class EditAccountsFormFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+        View view =  inflater.inflate(R.layout.popup_add_new_acc, container, false);
+
+//        +++++++++++ Spinner Starts ++++++++
+        Spinner spinner = (Spinner) view.findViewById(R.id.spinner_groupname);
+        // Spinner click listener
+//        spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) getActivity());
+
+        // Spinner Drop down elements
+        List<String> categories = new ArrayList<String>();
+        categories.add("Automobile");
+        categories.add("Business Services");
+        categories.add("Computers");
+        categories.add("Education");
+        categories.add("Personal");
+        categories.add("Travel");
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, categories);
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spinner.setAdapter(dataAdapter);
+
+//        ++++++++++++ Spinner Ends +++++++++
 
         String strtext = getArguments().getString("id");
         String newid = null;
@@ -123,7 +155,7 @@ public class EditAccountsFormFragment extends Fragment {
 
         }
 
-        return inflater.inflate(R.layout.popup_add_new_acc, container, false);
+        return view;
 
 
     }

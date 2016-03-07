@@ -20,11 +20,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Alias for Account"/>
-            <EditText
-                android:id="@+id/et_groupname"
-                android:hint="Select Group Name"
+            <!--<EditText-->
+                <!--android:id="@+id/et_groupname"-->
+                <!--android:hint="Select Group Name"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content" />-->
+            <Spinner
+                android:id="@+id/spinner_groupname"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:prompt="@string/spinner_title"/>
 
             <TextView
                 android:layout_width="match_parent"
