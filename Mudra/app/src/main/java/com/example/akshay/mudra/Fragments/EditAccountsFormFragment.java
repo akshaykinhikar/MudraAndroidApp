@@ -31,9 +31,9 @@ public class EditAccountsFormFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        String idOfAccToEdit = getArguments().getString("id");
+        String strtext = getArguments().getString("id");
 
-        Log.d("EditAcc", ""+idOfAccToEdit);
+        Log.d("EditAcc", ""+strtext);
         return inflater.inflate(R.layout.popup_add_new_acc, container, false);
 
 

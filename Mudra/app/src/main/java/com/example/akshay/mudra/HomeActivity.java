@@ -250,11 +250,12 @@ public class HomeActivity extends AppCompatActivity
     public void editAccountFragmentInterface() {
         Bundle bundle = new Bundle();
         bundle.putString("id", dataFragment);
+        Log.d("mainActivity", "editAccountFragmentInterface " +dataFragment);
         Fragment editAccountFragment =  new EditAccountsFormFragment();
         editAccountFragment.setArguments(bundle);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.homeFragment, new EditAccountsFormFragment(), "homeFragment");
+        fragmentTransaction.replace(R.id.homeFragment, editAccountFragment, "homeFragment");
         fragmentTransaction.commit();
     }
 
