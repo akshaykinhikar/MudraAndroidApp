@@ -16,6 +16,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -54,7 +55,7 @@ public class EditAccountsFormFragment extends Fragment {
             e.printStackTrace();
         }
 
-//        ------------------ POST Req ------------------
+//        ------------------ Requests  ------------------
         AsyncHttpClient editAccDetails = new AsyncHttpClient();
         PersistentCookieStore myCookieStore = new PersistentCookieStore(getActivity());
         editAccDetails.setCookieStore(myCookieStore);
@@ -63,7 +64,9 @@ public class EditAccountsFormFragment extends Fragment {
             JSONObject jsonobj = new JSONObject();
             try {
                 jsonobj.put("account_id", newid);
-                try {
+
+//                    ----------------- post id ---------------------
+
                     editAccDetails.post(getContext(), "http://192.168.1.125:8000/get_account_details/", new StringEntity(jsonobj.toString()),
                             "application/json", new JsonHttpResponseHandler() {
                                 @Override
@@ -78,10 +81,43 @@ public class EditAccountsFormFragment extends Fragment {
                                     Log.d("EditAcc", "on Failure of " + responseString);
                                 }
                             });
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+
+//                    --------------- get account type ----------------
+                editAccDetails.get(getContext(), "http://192.168.1.125:8000/get_accounttype_from_db/", new JsonHttpResponseHandler(){
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        super.onSuccess(statusCode, headers, response);
+                        Log.d("EditAcc"," get Acc type from db Suucess" + response);
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        super.onFailure(statusCode, headers, responseString, throwable);
+                        Log.d("EditAcc","get Acc type from db failure" +responseString);
+                    }
+                });
+
+//                ------------------ get groups -----------------------
+                editAccDetails.get(getContext(), "http://192.168.1.125:8000/get_groups_from_db/", new JsonHttpResponseHandler(){
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        super.onSuccess(statusCode, headers, response);
+                        Log.d("EditAcc"," get groups from db Suucess" + response);
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        super.onFailure(statusCode, headers, responseString, throwable);
+                        Log.d("EditAcc","get groups from db failure" +responseString);
+                    }
+                });
+
+
+
+
             } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
 
