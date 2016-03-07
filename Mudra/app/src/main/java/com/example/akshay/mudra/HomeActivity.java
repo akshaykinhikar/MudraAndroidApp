@@ -225,6 +225,7 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(String obj) {
         dataFragment = obj;
+        Log.d("mainActivity","data from Fragment" +dataFragment.toString());
 
     }
 
@@ -241,15 +242,20 @@ public class HomeActivity extends AppCompatActivity
         fragmentTransaction.commit();
     }
 
+//    +++++++++++++++++++++++++++++++++++++++++
+//    +++++++++++ Edit Account Details+++++++++
+//    +++++++++++++++++++++++++++++++++++++++++
+
     @Override
     public void editAccountFragmentInterface() {
-        Log.d("msg", "editAccountFragmentInterface");
+        Bundle bundle = new Bundle();
+        bundle.putString("id", dataFragment);
+        Fragment editAccountFragment =  new EditAccountsFormFragment();
+        editAccountFragment.setArguments(bundle);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.homeFragment, new EditAccountsFormFragment(), "homeFragment");
         fragmentTransaction.commit();
-        Log.d("msg", "Afteer Ataching editAccountFragmentInterface");
-
     }
 
     @Override

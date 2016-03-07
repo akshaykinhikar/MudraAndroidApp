@@ -34,6 +34,7 @@ public class EditAccountsFragment extends ListFragment {
     private OnFragmentInteractionListener mListener;
     List<String> account_name = new ArrayList<>();
     List<String> account_amount = new ArrayList<>();
+    List<String> account_id = new ArrayList<>();
 
     ArrayList<HashMap<String,String>> data = new ArrayList<HashMap<String, String>>();
     SimpleAdapter adapter;
@@ -66,8 +67,9 @@ public class EditAccountsFragment extends ListFragment {
                             for(int i = 0; i < arrayLength; i++){
                                 account_name.add(response.getJSONArray("accountList").getJSONObject(i).getString("account_name"));
                                 account_amount.add(response.getJSONArray("accountList").getJSONObject(i).getString("amount"));
-                                Log.d("edit_acc_fra", "" + account_name + account_amount);
+                                account_id.add(response.getJSONArray("accountList").getJSONObject(i).getString("id"));
                             }
+                            Log.d("edit_acc", " on Success" + account_name + account_amount + account_id);
                             setAccountsDetail();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -77,7 +79,7 @@ public class EditAccountsFragment extends ListFragment {
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                         super.onFailure(statusCode, headers, responseString, throwable);
-                        Log.d("msg","responseString" +responseString);
+                        Log.d("edit_acc","responseString" +responseString);
                     }
                 });
             }
@@ -95,7 +97,17 @@ public class EditAccountsFragment extends ListFragment {
         getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), data.get(position).get("acc"), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), data.get(position).get("acc"), Toast.LENGTH_SHORT).show();
+                JSONObject ObjToActivity =  new JSONObject();
+                try {
+                    ObjToActivity.put("id", data.get(position).get("acc_id"));
+
+                    Log.d("edit_acc", "id in on start" + data.get(position).get("acc_id"));
+                    ((HomeActivity) getActivity()).onFragmentInteraction(ObjToActivity.toString());
+                    Log.d("edit_acc","obj to frag" +ObjToActivity.toString() + "---"+ ObjToActivity);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 ((HomeActivity)getActivity()).editAccountFragmentInterface();
             }
         });
@@ -111,6 +123,8 @@ public class EditAccountsFragment extends ListFragment {
             map = new HashMap<String, String>();
             map.put("acc_name",account_name.get(i));
             map.put("acc_amount",account_amount.get(i));
+            map.put("acc_id",account_id.get(i));
+            Log.d("edit_acc","map -- id"+ account_id.get(i) );
             data.add(map);
         }
         //keys in map
