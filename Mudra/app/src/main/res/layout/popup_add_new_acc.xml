@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <EditText
-                android:id="@+id/et_et_lname"
+                android:id="@+id/et_lname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Last Name"/>
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content" />
             <EditText
                 android:id="@+id/et_city"
-                android:hint="CIty"
+                android:hint="City"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

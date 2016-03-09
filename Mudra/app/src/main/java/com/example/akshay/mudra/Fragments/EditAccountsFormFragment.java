@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -38,9 +40,14 @@ public class EditAccountsFormFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     Spinner spinner_group,spinner_acc;
+    View view;
+    String newid = null;
 
     List<String> groupNameList = new ArrayList<String>();
     List<String> accountNameList = new ArrayList<String>();
+    Button saveAccountDetail;
+    EditText acc_name,alias,fname,lname,addLine1,addLine2,city,state,country,pin,email,mob_no,alt_mob_no, opening_bal;
+    JSONObject accountInfo = new JSONObject();
 
     public EditAccountsFormFragment() {
         // Required empty public constructor
@@ -56,7 +63,64 @@ public class EditAccountsFormFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View view =  inflater.inflate(R.layout.popup_add_new_acc, container, false);
+        view =  inflater.inflate(R.layout.popup_add_new_acc, container, false);
+        acc_name = (EditText) view.findViewById(R.id.et_new_user_acc_name);
+        alias = (EditText) view.findViewById(R.id.et_alias_acc);
+        fname = (EditText) view.findViewById(R.id.et_fname);
+        lname = (EditText) view.findViewById(R.id.et_lname);
+        addLine1 = (EditText) view.findViewById(R.id.et_line1);
+        addLine2 = (EditText) view.findViewById(R.id.et_line2);
+        city = (EditText) view.findViewById(R.id.et_city);
+        state = (EditText) view.findViewById(R.id.et_state);
+        country= (EditText) view.findViewById(R.id.et_country);
+        pin = (EditText) view.findViewById(R.id.et_pin);
+        email = (EditText) view.findViewById(R.id.et_email);
+        mob_no = (EditText) view.findViewById(R.id.et_mob0);
+        alt_mob_no= (EditText) view.findViewById(R.id.et_alter_mob_no);
+        opening_bal= (EditText) view.findViewById(R.id.et_opening_balance);
+
+
+        //      ++++++++++++++ post Info to save +++++++++++++++++++
+        saveAccountDetail = (Button) view.findViewById(R.id.saveEditAccForm);
+
+        saveAccountDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AsyncHttpClient saveEditedAccForm = new AsyncHttpClient();
+                PersistentCookieStore myCookieStore = new PersistentCookieStore(getActivity());
+                saveEditedAccForm.setCookieStore(myCookieStore);
+
+
+                if(Utility.isNetConnected(getContext())){
+
+                    try {
+                        accountInfo.put("account_name", acc_name.getText().toString());
+                        accountInfo.put("alias", alias.getText().toString());
+                        accountInfo.put("firstName", fname.getText().toString());
+                        accountInfo.put("lastName", lname.getText().toString());
+                        accountInfo.put("addressLine1", addLine1.getText().toString());
+                        accountInfo.put("addressLine2", addLine2.getText().toString());
+                        accountInfo.put("city", city.getText().toString());
+                        accountInfo.put("state", state.getText().toString());
+                        accountInfo.put("country", country.getText().toString());
+                        accountInfo.put("pincode",pin.getText().toString());
+                        accountInfo.put("email", email.getText().toString());
+                        accountInfo.put("mobileNo0", mob_no.getText().toString());
+                        accountInfo.put("mobileNo1", alt_mob_no.getText().toString());
+                        accountInfo.put("openingBalance", opening_bal.getText().toString());
+                        accountInfo.put("account_id", newid);
+                        accountInfo.put("start_date", JSONObject.NULL);
+                        accountInfo.put("end_date", JSONObject.NULL);
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+
 
         //        +++++++++++ Spinner Starts ++++++++
         spinner_group = (Spinner) view.findViewById(R.id.spinner_groupname);
@@ -66,7 +130,7 @@ public class EditAccountsFormFragment extends Fragment {
 
         // Data from Activity -- id for acc to edit
         String strtext = getArguments().getString("id");
-        String newid = null;
+
         Log.d("EditAcc1", ""+strtext);
         try {
             JSONObject idObj = new JSONObject(strtext);
@@ -106,7 +170,7 @@ public class EditAccountsFormFragment extends Fragment {
 //                    --------------- get account type ----------------
                 editAccDetails.get(getContext(), "http://192.168.1.125:8000/get_accounttype_from_db/", new JsonHttpResponseHandler(){
                     @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    public void onSuccess(int statusCode, Header[] headers, final JSONObject response) {
                         super.onSuccess(statusCode, headers, response);
                         Log.d("EditAcc"," get Acc type from db Success" + response);
                         try {
@@ -129,8 +193,12 @@ public class EditAccountsFormFragment extends Fragment {
                             spinner_acc.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                 public void onItemSelected(AdapterView<?> parent, View view,
                                                            int position, long id) {
-                                    Toast.makeText(getActivity(), "" + parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
-
+                                    try {
+                                        accountInfo.put("accounttype", response.getJSONArray("accTypeList").getString(position));
+                                        Toast.makeText(getActivity(), "" + response.getJSONArray("accTypeList").getString(position).toString(), Toast.LENGTH_SHORT).show();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
 
                                 @Override
@@ -153,7 +221,7 @@ public class EditAccountsFormFragment extends Fragment {
 //                ------------------ get groups -----------------------
                 editAccDetails.get(getContext(), "http://192.168.1.125:8000/get_groups_from_db/", new JsonHttpResponseHandler(){
                     @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    public void onSuccess(int statusCode, Header[] headers, final JSONObject response) {
                         super.onSuccess(statusCode, headers, response);
                         try {
 
@@ -174,8 +242,13 @@ public class EditAccountsFormFragment extends Fragment {
                             spinner_group.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                 public void onItemSelected(AdapterView<?> parent, View view,
                                                            int position, long id) {
-                                    Toast.makeText(getActivity(), "" + parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
-
+//                                    Toast.makeText(getActivity(), "" + parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+                                    try {
+                                        Toast.makeText(getActivity(), "" + response.getJSONArray("accGroupList").getString(position), Toast.LENGTH_SHORT).show();
+                                        accountInfo.put("group", response.getJSONArray("accGroupList").getString(position));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
 
                                 @Override
