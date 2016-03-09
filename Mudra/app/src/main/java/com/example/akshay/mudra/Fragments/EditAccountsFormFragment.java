@@ -61,6 +61,7 @@ public class EditAccountsFormFragment extends Fragment {
         // Spinner click listener
         // spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) spinner);
 
+        // Data from Activity -- id for acc to edit
         String strtext = getArguments().getString("id");
         String newid = null;
         Log.d("EditAcc1", ""+strtext);
