@@ -77,6 +77,7 @@
             <EditText
                 android:id="@+id/et_pin"
                 android:hint="PIN"
+                android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
             <EditText
@@ -87,16 +88,19 @@
             <EditText
                 android:id="@+id/et_mob0"
                 android:hint="mobile Number"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <EditText
                 android:id="@+id/et_alter_mob_no"
                 android:hint="Altername Mobile Number"
+                android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
             <EditText
                 android:id="@+id/et_opening_balance"
                 android:hint="Opening Balance"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <!--<EditText-->

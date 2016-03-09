@@ -82,14 +82,12 @@ public class EditAccountsFormFragment extends Fragment {
 
         //      ++++++++++++++ post Info to save +++++++++++++++++++
         saveAccountDetail = (Button) view.findViewById(R.id.saveEditAccForm);
-
         saveAccountDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AsyncHttpClient saveEditedAccForm = new AsyncHttpClient();
                 PersistentCookieStore myCookieStore = new PersistentCookieStore(getActivity());
                 saveEditedAccForm.setCookieStore(myCookieStore);
-
 
                 if(Utility.isNetConnected(getContext())){
 
@@ -180,7 +178,26 @@ public class EditAccountsFormFragment extends Fragment {
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                     super.onSuccess(statusCode, headers, response);
-                                    Log.d("EditAcc", "on Success of POST" + response);
+                                    Log.d("EditAcc", "on Success of POST id" + response);
+                                    try {
+                                        Log.d("EditAcc", "data filtered " + response.getJSONObject("accountInfo").getString("lastName"));
+                                        acc_name.setText(response.getJSONObject("accountInfo").getString("account_name"));
+                                        alias.setText(response.getJSONObject("accountInfo").getString("alias"));
+                                        fname.setText(response.getJSONObject("accountInfo").getString("firstName"));
+                                        lname.setText(response.getJSONObject("accountInfo").getString("lastName"));
+                                        addLine1.setText(response.getJSONObject("accountInfo").getString("addressLine1"));
+                                        addLine2.setText(response.getJSONObject("accountInfo").getString("addressLine2"));
+                                        city.setText(response.getJSONObject("accountInfo").getString("city"));
+                                        state.setText(response.getJSONObject("accountInfo").getString("state"));
+                                        country.setText(response.getJSONObject("accountInfo").getString("country"));
+                                        pin.setText(response.getJSONObject("accountInfo").getString("pincode"));
+                                        email.setText(response.getJSONObject("accountInfo").getString("email"));
+                                        mob_no.setText(response.getJSONObject("accountInfo").getString("mobileNo0"));
+                                        alt_mob_no.setText(response.getJSONObject("accountInfo").getString("mobileNo1"));
+                                        opening_bal.setText(response.getJSONObject("accountInfo").getString("openingBalance"));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
 
                                 @Override
