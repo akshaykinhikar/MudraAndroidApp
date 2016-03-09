@@ -1,6 +1,7 @@
 package com.example.akshay.mudra.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -93,22 +95,22 @@ public class EditAccountsFormFragment extends Fragment {
 
                     try {
                         accountInfo.put("account_name", acc_name.getText().toString());
-                        accountInfo.put("alias", alias.getText().toString());
-                        accountInfo.put("firstName", fname.getText().toString());
-                        accountInfo.put("lastName", lname.getText().toString());
                         accountInfo.put("addressLine1", addLine1.getText().toString());
                         accountInfo.put("addressLine2", addLine2.getText().toString());
+                        accountInfo.put("alias", alias.getText().toString());
                         accountInfo.put("city", city.getText().toString());
-                        accountInfo.put("state", state.getText().toString());
                         accountInfo.put("country", country.getText().toString());
-                        accountInfo.put("pincode",pin.getText().toString());
                         accountInfo.put("email", email.getText().toString());
-                        accountInfo.put("mobileNo0", mob_no.getText().toString());
-                        accountInfo.put("mobileNo1", alt_mob_no.getText().toString());
-                        accountInfo.put("openingBalance", opening_bal.getText().toString());
-                        accountInfo.put("account_id", newid);
-                        accountInfo.put("start_date", JSONObject.NULL);
                         accountInfo.put("end_date", JSONObject.NULL);
+                        accountInfo.put("firstName", fname.getText().toString());
+                        accountInfo.put("lastName", lname.getText().toString());
+                        accountInfo.put("mobileNo0", Long.parseLong(mob_no.getText().toString()));
+                        accountInfo.put("mobileNo1", Long.parseLong(alt_mob_no.getText().toString()));
+                        accountInfo.put("openingBalance", Integer.parseInt(String.valueOf(opening_bal.getText())));
+                        accountInfo.put("pincode", Integer.parseInt(pin.getText().toString()));
+                        accountInfo.put("start_date", JSONObject.NULL);
+                        accountInfo.put("state", state.getText().toString());
+                        accountInfo.put("account_id", newid);
 
                         try {
                             saveEditedAccForm.post(getActivity(), "http://192.168.1.125:8000/save_edit_account/",new StringEntity(accountInfo.toString()),
