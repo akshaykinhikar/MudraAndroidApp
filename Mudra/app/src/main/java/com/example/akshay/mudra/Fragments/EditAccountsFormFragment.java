@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.akshay.mudra.HomeActivity;
 import com.example.akshay.mudra.MainActivity;
@@ -124,6 +125,19 @@ public class EditAccountsFormFragment extends Fragment {
 
                             // attaching data adapter to spinner
                             spinner_acc.setAdapter(dataAdapter);
+
+                            spinner_acc.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                public void onItemSelected(AdapterView<?> parent, View view,
+                                                           int position, long id) {
+                                    Toast.makeText(getActivity(), "" + parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+
+                                }
+                            });
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -156,6 +170,19 @@ public class EditAccountsFormFragment extends Fragment {
 
                             // attaching data adapter to spinner
                             spinner_group.setAdapter(dataAdapter);
+
+                            spinner_group.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                public void onItemSelected(AdapterView<?> parent, View view,
+                                                           int position, long id) {
+                                    Toast.makeText(getActivity(), "" + parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+
+                                }
+                            });
 
 
                             //++++++++++++ Spinner Ends +++++++++
