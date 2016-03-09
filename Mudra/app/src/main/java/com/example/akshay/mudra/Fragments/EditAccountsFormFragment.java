@@ -27,6 +27,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
@@ -35,6 +36,9 @@ import cz.msebera.android.httpclient.entity.StringEntity;
 public class EditAccountsFormFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    Spinner spinner;
+
+    List<String> groupNameList = new ArrayList<String>();
 
     public EditAccountsFormFragment() {
         // Required empty public constructor
@@ -53,29 +57,14 @@ public class EditAccountsFormFragment extends Fragment {
         View view =  inflater.inflate(R.layout.popup_add_new_acc, container, false);
 
 //        +++++++++++ Spinner Starts ++++++++
-        Spinner spinner = (Spinner) view.findViewById(R.id.spinner_groupname);
+        spinner = (Spinner) view.findViewById(R.id.spinner_groupname);
         // Spinner click listener
 //        spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) spinner);
 
-        // Spinner Drop down elements
-        List<String> categories = new ArrayList<String>();
-        categories.add("Automobile");
-        categories.add("Business Services");
-        categories.add("Computers");
-        categories.add("Education");
-        categories.add("Personal");
-        categories.add("Travel");
 
-        // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, categories);
 
-        // Drop down layout style - list view with radio button
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        // attaching data adapter to spinner
-        spinner.setAdapter(dataAdapter);
 
-//        ++++++++++++ Spinner Ends +++++++++
 
         String strtext = getArguments().getString("id");
         String newid = null;
@@ -135,7 +124,33 @@ public class EditAccountsFormFragment extends Fragment {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         super.onSuccess(statusCode, headers, response);
-                        Log.d("EditAcc"," get groups from db Suucess" + response);
+                        try {
+
+                            Log.d("EditAcc", " get groups " + response.getJSONArray("accGroupList"));
+                            for(int i = 0; i <response.getJSONArray("accGroupList").length(); i++){
+                                groupNameList
+                                        .add(response.getJSONArray("accGroupList").getJSONObject(i).getString("choice_name"));
+                            }
+                            // Creating adapter for spinner
+                            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, groupNameList);
+
+                            // Drop down layout style - list view with radio button
+                            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                            // attaching data adapter to spinner
+                            spinner.setAdapter(dataAdapter);
+
+//        ++++++++++++ Spinner Ends +++++++++
+
+//                            groupNameObj[0] = response.getJSONArray("accGroupList");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            Log.d("EditAcc"," get groups from db Success" + response.toString(4));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override
