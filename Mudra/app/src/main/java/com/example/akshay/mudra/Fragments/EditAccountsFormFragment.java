@@ -36,9 +36,10 @@ import cz.msebera.android.httpclient.entity.StringEntity;
 public class EditAccountsFormFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-    Spinner spinner;
+    Spinner spinner_group,spinner_acc;
 
     List<String> groupNameList = new ArrayList<String>();
+    List<String> accountNameList = new ArrayList<String>();
 
     public EditAccountsFormFragment() {
         // Required empty public constructor
@@ -57,7 +58,8 @@ public class EditAccountsFormFragment extends Fragment {
         View view =  inflater.inflate(R.layout.popup_add_new_acc, container, false);
 
         //        +++++++++++ Spinner Starts ++++++++
-        spinner = (Spinner) view.findViewById(R.id.spinner_groupname);
+        spinner_group = (Spinner) view.findViewById(R.id.spinner_groupname);
+        spinner_acc = (Spinner) view.findViewById(R.id.spinner_acc_type);
         // Spinner click listener
         // spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) spinner);
 
@@ -105,7 +107,26 @@ public class EditAccountsFormFragment extends Fragment {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         super.onSuccess(statusCode, headers, response);
-                        Log.d("EditAcc"," get Acc type from db Suucess" + response);
+                        Log.d("EditAcc"," get Acc type from db Success" + response);
+                        try {
+                            Log.d("length", "length is " +response.getJSONArray("accTypeList").length());
+                            for(int i = 0; i < response.getJSONArray("accTypeList").length(); i++){
+                                accountNameList
+                                        .add(response.getJSONArray("accTypeList").getJSONObject(i).getString("choice_name"));
+                            Log.d("EditAcc","accountNameList is"+ accountNameList);
+                            }
+                            // Creating adapter for spinner
+                            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, accountNameList);
+
+
+                            // Drop down layout style - list view with radio button
+                            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                            // attaching data adapter to spinner
+                            spinner_acc.setAdapter(dataAdapter);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override
@@ -134,7 +155,7 @@ public class EditAccountsFormFragment extends Fragment {
                             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                             // attaching data adapter to spinner
-                            spinner.setAdapter(dataAdapter);
+                            spinner_group.setAdapter(dataAdapter);
                             //++++++++++++ Spinner Ends +++++++++
 
                         } catch (JSONException e) {
@@ -153,10 +174,6 @@ public class EditAccountsFormFragment extends Fragment {
                         Log.d("EditAcc","get groups from db failure" +responseString);
                     }
                 });
-
-
-
-
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (UnsupportedEncodingException e) {
@@ -164,10 +181,7 @@ public class EditAccountsFormFragment extends Fragment {
             }
 
         }
-
         return view;
-
-
     }
 
       @Override

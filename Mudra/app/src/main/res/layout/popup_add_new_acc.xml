@@ -98,11 +98,17 @@
                 android:hint="Opening Balance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-            <EditText
-                android:id="@+id/et_acc_type"
-                android:hint="Select Acc Type"
+            <!--<EditText-->
+                <!--android:id="@+id/et_acc_type"-->
+                <!--android:hint="Select Acc Type"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content" />-->
+            <Spinner
+                android:id="@+id/spinner_acc_type"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:prompt="@string/spinner_title"/>
         </LinearLayout>
 
     </ScrollView>
