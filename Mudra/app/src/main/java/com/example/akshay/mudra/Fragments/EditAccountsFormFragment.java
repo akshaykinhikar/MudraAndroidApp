@@ -56,15 +56,10 @@ public class EditAccountsFormFragment extends Fragment {
 
         View view =  inflater.inflate(R.layout.popup_add_new_acc, container, false);
 
-//        +++++++++++ Spinner Starts ++++++++
+        //        +++++++++++ Spinner Starts ++++++++
         spinner = (Spinner) view.findViewById(R.id.spinner_groupname);
         // Spinner click listener
-//        spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) spinner);
-
-
-
-
-
+        // spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) spinner);
 
         String strtext = getArguments().getString("id");
         String newid = null;
@@ -139,10 +134,8 @@ public class EditAccountsFormFragment extends Fragment {
 
                             // attaching data adapter to spinner
                             spinner.setAdapter(dataAdapter);
+                            //++++++++++++ Spinner Ends +++++++++
 
-//        ++++++++++++ Spinner Ends +++++++++
-
-//                            groupNameObj[0] = response.getJSONArray("accGroupList");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
