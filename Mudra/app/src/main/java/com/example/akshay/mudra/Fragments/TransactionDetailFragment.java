@@ -85,7 +85,8 @@ public class TransactionDetailFragment extends Fragment {
 //            login.setCookieStore(myCookieStore);
             try {
                 if (Utility.isNetConnected(getContext())) {
-                    login.post(getActivity(), "http://192.168.1.125:8000/show_transactions_of_single_account/", new StringEntity(getTransacDetailObj.toString()),
+                    login.post(getActivity(), "http://192.168.1.125:8000/show_transactions_of_single_account/",
+                            new StringEntity(getTransacDetailObj.toString()),
                             "application/json", new JsonHttpResponseHandler() {
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

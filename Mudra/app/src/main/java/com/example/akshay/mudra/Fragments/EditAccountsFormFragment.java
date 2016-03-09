@@ -112,6 +112,29 @@ public class EditAccountsFormFragment extends Fragment {
                         accountInfo.put("start_date", JSONObject.NULL);
                         accountInfo.put("end_date", JSONObject.NULL);
 
+                        try {
+                            saveEditedAccForm.post(getActivity(), "http://192.168.1.125:8000/save_edit_account/",new StringEntity(accountInfo.toString()),
+                                    "application/json", new JsonHttpResponseHandler(){
+                                        @Override
+                                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                            super.onSuccess(statusCode, headers, response);
+                                            try {
+                                                Log.d("EditAcc", "On Success of Post For Save --> " +response.toString(4));
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                            super.onFailure(statusCode, headers, responseString, throwable);
+                                            Log.d("EditAcc","On Failure of Post For Save -->" +responseString);
+                                        }
+                                    });
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
 
                     } catch (JSONException e) {
                         e.printStackTrace();
