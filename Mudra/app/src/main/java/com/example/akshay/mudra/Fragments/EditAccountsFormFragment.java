@@ -113,7 +113,7 @@ public class EditAccountsFormFragment extends Fragment {
                         accountInfo.put("account_id", newid);
 
                         try {
-                            saveEditedAccForm.post(getActivity(), "http://192.168.1.125:8000/save_edit_account/",new StringEntity(accountInfo.toString()),
+                            saveEditedAccForm.post(getActivity(), "http://192.168.43.236:8000/save_edit_account/",new StringEntity(accountInfo.toString()),
                                     "application/json", new JsonHttpResponseHandler(){
                                         @Override
                                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -175,7 +175,7 @@ public class EditAccountsFormFragment extends Fragment {
 
 //                    ----------------- post id ---------------------
 
-                    editAccDetails.post(getContext(), "http://192.168.1.125:8000/get_account_details/", new StringEntity(jsonobj.toString()),
+                    editAccDetails.post(getContext(), "http://192.168.43.236:8000/get_account_details/", new StringEntity(jsonobj.toString()),
                             "application/json", new JsonHttpResponseHandler() {
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -210,7 +210,7 @@ public class EditAccountsFormFragment extends Fragment {
                             });
 
 //                    --------------- get account type ----------------
-                editAccDetails.get(getContext(), "http://192.168.1.125:8000/get_accounttype_from_db/", new JsonHttpResponseHandler(){
+                editAccDetails.get(getContext(), "http://192.168.43.236:8000/get_accounttype_from_db/", new JsonHttpResponseHandler(){
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, final JSONObject response) {
                         super.onSuccess(statusCode, headers, response);
@@ -261,7 +261,7 @@ public class EditAccountsFormFragment extends Fragment {
                 });
 
 //                ------------------ get groups -----------------------
-                editAccDetails.get(getContext(), "http://192.168.1.125:8000/get_groups_from_db/", new JsonHttpResponseHandler(){
+                editAccDetails.get(getContext(), "http://192.168.43.236:8000/get_groups_from_db/", new JsonHttpResponseHandler(){
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, final JSONObject response) {
                         super.onSuccess(statusCode, headers, response);
