@@ -5,7 +5,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/scroll_new_acc">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -109,9 +110,18 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:prompt="@string/spinner_title"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Save"
+ 
+                android:id="@+id/saveEditAccForm"/>
+
         </LinearLayout>
 
     </ScrollView>
+
+
 
 
 </RelativeLayout>

@@ -156,6 +156,8 @@ public class EditAccountsFormFragment extends Fragment {
 
                             // attaching data adapter to spinner
                             spinner_group.setAdapter(dataAdapter);
+
+
                             //++++++++++++ Spinner Ends +++++++++
 
                         } catch (JSONException e) {
