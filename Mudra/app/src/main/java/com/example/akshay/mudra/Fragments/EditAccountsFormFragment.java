@@ -1,8 +1,5 @@
 package com.example.akshay.mudra.Fragments;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -16,23 +13,18 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.akshay.mudra.HomeActivity;
-import com.example.akshay.mudra.MainActivity;
 import com.example.akshay.mudra.R;
 import com.example.akshay.mudra.Utility.Utility;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
@@ -49,6 +41,7 @@ public class EditAccountsFormFragment extends Fragment {
     List<String> accountNameList = new ArrayList<String>();
     Button saveAccountDetail;
     EditText acc_name,alias,fname,lname,addLine1,addLine2,city,state,country,pin,email,mob_no,alt_mob_no, opening_bal;
+    JSONObject accountInfoObj = new JSONObject();
     JSONObject accountInfo = new JSONObject();
 
     public EditAccountsFormFragment() {
@@ -94,23 +87,27 @@ public class EditAccountsFormFragment extends Fragment {
                 if(Utility.isNetConnected(getContext())){
 
                     try {
-                        accountInfo.put("account_name", acc_name.getText().toString());
-                        accountInfo.put("addressLine1", addLine1.getText().toString());
-                        accountInfo.put("addressLine2", addLine2.getText().toString());
-                        accountInfo.put("alias", alias.getText().toString());
-                        accountInfo.put("city", city.getText().toString());
-                        accountInfo.put("country", country.getText().toString());
-                        accountInfo.put("email", email.getText().toString());
-                        accountInfo.put("end_date", JSONObject.NULL);
-                        accountInfo.put("firstName", fname.getText().toString());
-                        accountInfo.put("lastName", lname.getText().toString());
-                        accountInfo.put("mobileNo0", Long.parseLong(mob_no.getText().toString()));
-                        accountInfo.put("mobileNo1", Long.parseLong(alt_mob_no.getText().toString()));
-                        accountInfo.put("openingBalance", Integer.parseInt(String.valueOf(opening_bal.getText())));
-                        accountInfo.put("pincode", Integer.parseInt(pin.getText().toString()));
-                        accountInfo.put("start_date", JSONObject.NULL);
-                        accountInfo.put("state", state.getText().toString());
-                        accountInfo.put("account_id", newid);
+                        accountInfoObj.put("account_name", acc_name.getText().toString());
+                        accountInfoObj.put("addressLine1", addLine1.getText().toString());
+                        accountInfoObj.put("addressLine2", addLine2.getText().toString());
+                        accountInfoObj.put("alias", alias.getText().toString());
+                        accountInfoObj.put("city", city.getText().toString());
+                        accountInfoObj.put("country", country.getText().toString());
+                        accountInfoObj.put("email", email.getText().toString());
+                        accountInfoObj.put("end_date", JSONObject.NULL);
+                        accountInfoObj.put("firstName", fname.getText().toString());
+                        accountInfoObj.put("lastName", lname.getText().toString());
+                        accountInfoObj.put("mobileNo0", Long.parseLong(mob_no.getText().toString()));
+                        accountInfoObj.put("mobileNo1", Long.parseLong(alt_mob_no.getText().toString()));
+                        accountInfoObj.put("openingBalance", Integer.parseInt(String.valueOf(opening_bal.getText())));
+                        accountInfoObj.put("pincode", Integer.parseInt(pin.getText().toString()));
+                        accountInfoObj.put("start_date", JSONObject.NULL);
+                        accountInfoObj.put("state", state.getText().toString());
+                        accountInfoObj.put("account_id", newid);
+
+                        Log.d("accountInfoObj", ""+accountInfoObj.toString(4));
+
+                        accountInfo.put("accountInfo", accountInfoObj);
 
                         try {
                             saveEditedAccForm.post(getActivity(), "http://192.168.1.125:8000/save_edit_account/",new StringEntity(accountInfo.toString()),
@@ -236,7 +233,7 @@ public class EditAccountsFormFragment extends Fragment {
                                 public void onItemSelected(AdapterView<?> parent, View view,
                                                            int position, long id) {
                                     try {
-                                        accountInfo.put("accounttype", response.getJSONArray("accTypeList").getString(position));
+                                        accountInfoObj.put("accounttype", response.getJSONArray("accTypeList").getString(position));
                                         Toast.makeText(getActivity(), "" + response.getJSONArray("accTypeList").getString(position).toString(), Toast.LENGTH_SHORT).show();
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -287,7 +284,7 @@ public class EditAccountsFormFragment extends Fragment {
 //                                    Toast.makeText(getActivity(), "" + parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
                                     try {
                                         Toast.makeText(getActivity(), "" + response.getJSONArray("accGroupList").getString(position), Toast.LENGTH_SHORT).show();
-                                        accountInfo.put("group", response.getJSONArray("accGroupList").getString(position));
+                                        accountInfoObj.put("group", response.getJSONArray("accGroupList").getString(position));
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
