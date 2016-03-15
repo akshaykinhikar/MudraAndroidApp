@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.example.akshay.mudra.LoginActivity;
 import com.example.akshay.mudra.R;
 import com.example.akshay.mudra.Utility.Utility;
+import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
@@ -33,6 +35,7 @@ public class EventAccountingFragment extends Fragment {
 
     Spinner spinner_transaction_mode,spinner_account_action_credit_debit, spinner_select_account;
     EditText enter_ammount;
+    Button selectDate;
 
     private OnFragmentInteractionListener mListener;
 
@@ -40,6 +43,8 @@ public class EventAccountingFragment extends Fragment {
     List<String> transaction_modeList = new ArrayList<String>();
     List<String> action_credit_debit =  new ArrayList<>();
     List<String> account_list =  new ArrayList<>();
+
+    private String TAG_DATE_PICKER_DIALOG = "TAG_DATE_PICKER_DIALOG"  ;
 
     public EventAccountingFragment() {
         // Required empty public constructor
@@ -57,13 +62,25 @@ public class EventAccountingFragment extends Fragment {
         spinner_select_account = (Spinner) view.findViewById(R.id.spinner_account_name);
 
         enter_ammount = (EditText) view.findViewById(R.id.et_enter_ammount);
-        
+
+        selectDate = (Button) view.findViewById(R.id.btn_select_date);
+
+        selectDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog = DatePickerDialog.newInstance((DatePickerDialog.OnDateSetListener) getActivity(),2015,9,5);
+                datePickerDialog.show(getFragmentManager(), TAG_DATE_PICKER_DIALOG);
+            }
+
+
+        });
 
         Log.d("eventAcc"," spinner to show" +transaction_modeList);
 
 //        =================================================================
 //        ================= GET Transaction Mode===========================
 //        =================================================================
+
 
         //for cookies
         AsyncHttpClient eventAcc = new AsyncHttpClient();
@@ -177,6 +194,14 @@ public class EventAccountingFragment extends Fragment {
 
         return view;
     }
+
+
+
+//    @Override
+//    public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day){
+//        Toast.makeText(getActivity(),"" + year +month +day, Toast.LENGTH_SHORT).show();
+//
+//    }
 
 
     @Override

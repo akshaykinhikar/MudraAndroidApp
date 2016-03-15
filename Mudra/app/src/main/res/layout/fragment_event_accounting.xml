@@ -8,13 +8,21 @@
     <!-- TODO: Update blank fragment layout -->
 
 
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
 
-    <!--<DatePicker-->
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select Date"
+            android:id="@+id/btn_select_date"/>
+
+
+        <!--<DatePicker-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content">-->
     <!--</DatePicker>-->

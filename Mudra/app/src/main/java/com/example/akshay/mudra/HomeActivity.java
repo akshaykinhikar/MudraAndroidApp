@@ -21,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.akshay.mudra.Fragments.AccountsFragment;
 import com.example.akshay.mudra.Fragments.ActivitiesFragment;
@@ -29,6 +30,8 @@ import com.example.akshay.mudra.Fragments.EditAccountsFragment;
 import com.example.akshay.mudra.Fragments.EventAccountingFragment;
 import com.example.akshay.mudra.Fragments.HomeFragment;
 import com.example.akshay.mudra.Fragments.TransactionDetailFragment;
+import com.fourmob.datetimepicker.date.DatePickerDialog;
+
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -39,7 +42,9 @@ public class HomeActivity extends AppCompatActivity
         EventAccountingFragment.OnFragmentInteractionListener,
         AccountsFragment.FragmentTransactionInterface,
         EditAccountsFragment.EditAccountFragmentInterface,
-        HomeFragment.FragmentAccountsInterface {
+        HomeFragment.FragmentAccountsInterface,
+        DatePickerDialog.OnDateSetListener
+{
 
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -265,5 +270,13 @@ public class HomeActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.homeFragment, new AccountsFragment(), "homeFragment");
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
+        Toast.makeText(HomeActivity.this, "" + year + month + day, Toast.LENGTH_SHORT).show();
+        String str = "" + month +" "+ day +" "+ year;
+        
+
     }
 }
