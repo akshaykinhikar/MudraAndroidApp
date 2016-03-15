@@ -22,6 +22,7 @@
             android:id="@+id/spinner_transaction_mode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="10px"
             android:prompt="@string/spinner_title">
 
         </Spinner>
