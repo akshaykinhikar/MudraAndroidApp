@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -30,13 +31,15 @@ import cz.msebera.android.httpclient.Header;
 
 public class EventAccountingFragment extends Fragment {
 
-    Spinner spinner_transaction_mode,spinner_account_action_credit_debit;
+    Spinner spinner_transaction_mode,spinner_account_action_credit_debit, spinner_select_account;
+    EditText enter_ammount;
 
     private OnFragmentInteractionListener mListener;
 
     // Spinner Drop down elements
     List<String> transaction_modeList = new ArrayList<String>();
     List<String> action_credit_debit =  new ArrayList<>();
+    List<String> account_list =  new ArrayList<>();
 
     public EventAccountingFragment() {
         // Required empty public constructor
@@ -51,6 +54,10 @@ public class EventAccountingFragment extends Fragment {
 
         spinner_transaction_mode = (Spinner) view.findViewById(R.id.spinner_transaction_mode);
         spinner_account_action_credit_debit = (Spinner) view.findViewById(R.id.spinner_credit_debit);
+        spinner_select_account = (Spinner) view.findViewById(R.id.spinner_account_name);
+
+        enter_ammount = (EditText) view.findViewById(R.id.et_enter_ammount);
+        
 
         Log.d("eventAcc"," spinner to show" +transaction_modeList);
 
@@ -64,19 +71,19 @@ public class EventAccountingFragment extends Fragment {
         eventAcc.setCookieStore(myCookieStore);
 
         if (Utility.isNetConnected(getContext())) {
-               eventAcc.get(getActivity(),"http://192.168.1.125:8000/get_transactiontype_from_db/", new JsonHttpResponseHandler(){
+               eventAcc.get(getActivity(), "http://192.168.1.125:8000/get_transactiontype_from_db/", new JsonHttpResponseHandler() {
                    @Override
                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                        super.onSuccess(statusCode, headers, response);
 
-                           Log.d("eventAcc", "Transaction Mode Success" + response);
+                       Log.d("eventAcc", "Transaction Mode Success" + response);
                        try {
                            Log.d("eventAcc", "Transaction Mode Success" + response.getJSONArray("TransactionTypeList"));
                            int array_tran_list = response.getJSONArray("TransactionTypeList").length();
-                           for( int i = 0; i< array_tran_list; i++){
+                           for (int i = 0; i < array_tran_list; i++) {
                                transaction_modeList.add(response.getJSONArray("TransactionTypeList").getJSONObject(i).getString("choice_name"));
                            }
-                           Log.d("array",""+ transaction_modeList);
+                           Log.d("array", "" + transaction_modeList);
                            ArrayAdapter<String> transaction_mode_adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, transaction_modeList);
 
                            transaction_mode_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -92,9 +99,41 @@ public class EventAccountingFragment extends Fragment {
                    @Override
                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                        super.onFailure(statusCode, headers, responseString, throwable);
-                       Log.d("entAcc","Transaction mode failure" +responseString);
+                       Log.d("entAcc", "Transaction mode failure" + responseString);
                    }
                });
+//            =============================================
+//            ======   GET ACCOUNT   ======================
+//            =============================================
+            eventAcc.get(getActivity(), "http://192.168.1.125:8000/show_account_details/", new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    super.onSuccess(statusCode, headers, response);
+
+                    Log.d("eventAcc", "Acc name Success" + response);
+                    try {
+                        int acc_list_array = response.getJSONArray("accountList").length();
+                        for (int i = 0; i < acc_list_array; i++) {
+                            account_list.add(response.getJSONArray("accountList").getJSONObject(i).getString("account_name"));
+                        }
+                        Log.d("eventAcc", "acc list in array" + account_list);
+                        ArrayAdapter<String> selected_acc_adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, account_list);
+
+                        selected_acc_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                        spinner_select_account.setAdapter(selected_acc_adapter);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    super.onFailure(statusCode, headers, responseString, throwable);
+                    Log.d("entAcc", "Acc mode failure" + responseString);
+                }
+            });
         }
 //        ++++++++++++++++++++++++++++++++++++++++++++++++
 //        ++++++++++++++++++++++++++++++++++++++++++++++++
@@ -112,6 +151,20 @@ public class EventAccountingFragment extends Fragment {
             }
         });
 
+//        LIstener for account
+        spinner_select_account.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getContext(), "" + parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         //spinner credit or Debit
         action_credit_debit.add("Credit");
         action_credit_debit.add("debit");
@@ -120,9 +173,6 @@ public class EventAccountingFragment extends Fragment {
 
         adapter_credit_debit.setDropDownViewResource(android.R.layout.simple_spinner_item);
         spinner_account_action_credit_debit.setAdapter(adapter_credit_debit);
-
-
-
 
 
         return view;

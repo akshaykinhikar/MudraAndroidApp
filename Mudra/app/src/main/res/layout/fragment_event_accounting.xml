@@ -34,5 +34,19 @@
             android:prompt="@string/spinner_title">
         </Spinner>
 
+        <Spinner
+            android:id="@+id/spinner_account_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20px"
+            android:prompt="@string/spinner_title">
+        </Spinner>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/et_enter_ammount"
+            android:hint="Enter Amount"/>
+
     </LinearLayout>
 </FrameLayout>
