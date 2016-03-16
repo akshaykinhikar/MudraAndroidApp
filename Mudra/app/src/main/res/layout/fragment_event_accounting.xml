@@ -7,86 +7,100 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-
-
-    <LinearLayout
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-
-        <Button
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Select Date"
-            android:id="@+id/btn_select_date"/>
+            >
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select Date"
+                android:id="@+id/btn_select_date"/>
 
 
-        <!--<DatePicker-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
-    <!--</DatePicker>-->
-        <Spinner
-            android:id="@+id/spinner_transaction_mode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10px"
-            android:prompt="@string/spinner_title">
-        </Spinner>
+            <!--<DatePicker-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+            <!--</DatePicker>-->
+            <Spinner
+                android:id="@+id/spinner_transaction_mode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10px"
+                android:prompt="@string/spinner_title">
+            </Spinner>
 
-        <Spinner
-            android:id="@+id/spinner_credit_debit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20px"
-            android:prompt="@string/spinner_title">
-        </Spinner>
+            <Spinner
+                android:id="@+id/spinner_credit_debit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20px"
+                android:prompt="@string/spinner_title">
+            </Spinner>
 
-        <Spinner
-            android:id="@+id/spinner_account_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20px"
-            android:prompt="@string/spinner_title">
-        </Spinner>
+            <Spinner
+                android:id="@+id/spinner_account_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20px"
+                android:prompt="@string/spinner_title">
+            </Spinner>
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/et_enter_ammount"
-            android:hint="Enter Amount"/>
-
-
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_add_more_acc"
-            android:text="Add"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/et_enter_ammount"
+                android:hint="Enter Amount"/>
 
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/et_description"
-            android:hint="enter description"/>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_add_event_acc"
-            android:text="Save"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_add_more_acc"
+                android:text="Add"/>
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/et_description"
+                android:hint="enter description"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_add_event_acc"
+                android:text="Save"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ListView
+                    android:id="@android:id/list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </ListView>
+            </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <ListView
-                android:id="@android:id/list"
+            <EditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </ListView>
+                android:layout_height="wrap_content"
+                android:hint="Enter Description"/>
         </LinearLayout>
 
-    </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+
 </FrameLayout>
