@@ -1,9 +1,7 @@
 package com.example.akshay.mudra;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -31,6 +28,10 @@ import com.example.akshay.mudra.Fragments.EventAccountingFragment;
 import com.example.akshay.mudra.Fragments.HomeFragment;
 import com.example.akshay.mudra.Fragments.TransactionDetailFragment;
 import com.fourmob.datetimepicker.date.DatePickerDialog;
+
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 
 public class HomeActivity extends AppCompatActivity
@@ -275,8 +276,20 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
         Toast.makeText(HomeActivity.this, "" + year + month + day, Toast.LENGTH_SHORT).show();
-        String str = "" + month +" "+ day +" "+ year;
-        
+        String str = ""+year+"-"+month+"-"+day;
+
+
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date gmt = null;
+        try {
+            gmt = formatter.parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        long millisecondsSinceEpoch0 = gmt.getTime();
+        String asString = formatter.format(gmt);
+        Log.d("homeActivity","" +asString +"<------>" +millisecondsSinceEpoch0);
 
     }
 }
