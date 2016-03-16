@@ -53,33 +53,22 @@ public class EventAccountingFragment extends ListFragment {
 //    =======  List ===========
 //    =============================
 
-    // Array of strings storing country names
-    String[] countries = new String[] {
-            "India",
-            "Pakistan",
-            "Sri Lanka",
-            "China",
-            "Bangladesh",
-            "Nepal",
-            "Afghanistan",
-            "North Korea",
-            "South Korea",
-            "Japan"
+
+    String[] accountActionCD = new String[] {
+            "Debit",
+            "Credit"
     };
 
-    // Array of strings to store currencies
-    String[] currency = new String[]{
-            "Indian Rupee",
-            "Pakistani Rupee",
-            "Sri Lankan Rupee",
-            "Renminbi",
-            "Bangladeshi Taka",
-            "Nepalese Rupee",
-            "Afghani",
-            "North Korean Won",
-            "South Korean Won",
-            "Japanese Yen"
+    String[] accountName = new String[]{
+            "Cash",
+            "cash1"
     };
+
+    String[] accountAmmount = new String[]{
+            "1000",
+            "2000"
+    };
+
 
     public EventAccountingFragment() {
         // Required empty public constructor
@@ -93,18 +82,19 @@ public class EventAccountingFragment extends ListFragment {
 
         ArrayList<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();
         HashMap<String, String> hm = new HashMap<String, String>();
-        for(int i= 0; i<10; i++){
+        for(int i= 0; i<2; i++){
             hm = new HashMap<String, String>();
-            hm.put("txt", "Country : " + countries[i]);
-            hm.put("cur","Currency : " + currency[i]);
+            hm.put("txt", accountActionCD[i]);
+            hm.put("cur",accountName[i]);
+            hm.put("amount",accountAmmount[i]);
             data.add(hm);
         }
 
         // Keys used in Hashmap
-        String[] from = { "txt","cur"};
+        String[] from = { "txt","cur", "amount"};
 
         // Ids of views in listview_layout
-        int[] to = { R.id.textView1,R.id.textView2};
+        int[] to = { R.id.textView1,R.id.textView2, R.id.textView3};
 
         SimpleAdapter adapter = new SimpleAdapter(getActivity().getBaseContext(), data, R.layout.transaction_acc_item, from, to);
 
