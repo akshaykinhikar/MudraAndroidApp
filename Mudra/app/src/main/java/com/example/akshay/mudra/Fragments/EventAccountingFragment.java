@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -28,13 +30,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
 
 import cz.msebera.android.httpclient.Header;
 
-public class EventAccountingFragment extends Fragment {
+public class EventAccountingFragment extends ListFragment {
 
     Spinner spinner_transaction_mode,spinner_account_action_credit_debit, spinner_select_account;
-    EditText enter_ammount;
+    EditText enter_ammount, description;
     Button selectDate;
 
     private OnFragmentInteractionListener mListener;
@@ -46,6 +49,38 @@ public class EventAccountingFragment extends Fragment {
 
     private String TAG_DATE_PICKER_DIALOG = "TAG_DATE_PICKER_DIALOG"  ;
 
+//    =============================
+//    =======  List ===========
+//    =============================
+
+    // Array of strings storing country names
+    String[] countries = new String[] {
+            "India",
+            "Pakistan",
+            "Sri Lanka",
+            "China",
+            "Bangladesh",
+            "Nepal",
+            "Afghanistan",
+            "North Korea",
+            "South Korea",
+            "Japan"
+    };
+
+    // Array of strings to store currencies
+    String[] currency = new String[]{
+            "Indian Rupee",
+            "Pakistani Rupee",
+            "Sri Lankan Rupee",
+            "Renminbi",
+            "Bangladeshi Taka",
+            "Nepalese Rupee",
+            "Afghani",
+            "North Korean Won",
+            "South Korean Won",
+            "Japanese Yen"
+    };
+
     public EventAccountingFragment() {
         // Required empty public constructor
     }
@@ -53,9 +88,29 @@ public class EventAccountingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_event_accounting, container, false);
+
+        ArrayList<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();
+        HashMap<String, String> hm = new HashMap<String, String>();
+        for(int i= 0; i<10; i++){
+            hm = new HashMap<String, String>();
+            hm.put("txt", "Country : " + countries[i]);
+            hm.put("cur","Currency : " + currency[i]);
+            data.add(hm);
+        }
+
+        // Keys used in Hashmap
+        String[] from = { "txt","cur"};
+
+        // Ids of views in listview_layout
+        int[] to = { R.id.textView1,R.id.textView2};
+
+        SimpleAdapter adapter = new SimpleAdapter(getActivity().getBaseContext(), data, R.layout.transaction_acc_item, from, to);
+
+        setListAdapter(adapter);
+
+        //list for added account transaction
 
         spinner_transaction_mode = (Spinner) view.findViewById(R.id.spinner_transaction_mode);
         spinner_account_action_credit_debit = (Spinner) view.findViewById(R.id.spinner_credit_debit);
@@ -64,6 +119,7 @@ public class EventAccountingFragment extends Fragment {
         enter_ammount = (EditText) view.findViewById(R.id.et_enter_ammount);
 
         selectDate = (Button) view.findViewById(R.id.btn_select_date);
+        description = (EditText) view.findViewById(R.id.et_description);
 
         selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -219,4 +275,5 @@ public class EventAccountingFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(String obj);
     }
+
 }
