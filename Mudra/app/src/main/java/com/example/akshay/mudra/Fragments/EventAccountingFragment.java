@@ -40,6 +40,8 @@ public class EventAccountingFragment extends ListFragment {
     EditText enter_ammount, description;
     Button selectDate;
 
+
+
     private OnFragmentInteractionListener mListener;
 
     // Spinner Drop down elements
@@ -240,15 +242,6 @@ public class EventAccountingFragment extends ListFragment {
 
         return view;
     }
-
-
-
-//    @Override
-//    public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day){
-//        Toast.makeText(getActivity(),"" + year +month +day, Toast.LENGTH_SHORT).show();
-//
-//    }
-
 
     @Override
     public void onAttach(Context context) {
