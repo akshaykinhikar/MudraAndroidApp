@@ -25,6 +25,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,13 +35,14 @@ import java.util.HashMap;
 
 import cz.msebera.android.httpclient.Header;
 
+import static com.example.akshay.mudra.R.id.btn_add_more_acc;
+
 public class EventAccountingFragment extends ListFragment {
 
     Spinner spinner_transaction_mode,spinner_account_action_credit_debit, spinner_select_account;
     EditText enter_ammount, description;
-    Button selectDate;
-
-
+    Button selectDate, btn_save_acc_tran;
+    public String value_selected_amount,value_is_credit_debit;
 
     private OnFragmentInteractionListener mListener;
 
@@ -51,10 +53,16 @@ public class EventAccountingFragment extends ListFragment {
 
     private String TAG_DATE_PICKER_DIALOG = "TAG_DATE_PICKER_DIALOG"  ;
 
+    ArrayList<String> accountArrayListSingleObj = new ArrayList<>();
+
+    JSONObject selectedAcc = new JSONObject();
+
+    JSONObject objAccResponseServer;
+
+
 //    =============================
 //    =======  List ===========
 //    =============================
-
 
     String[] accountActionCD = new String[] {
             "Debit",
@@ -109,6 +117,7 @@ public class EventAccountingFragment extends ListFragment {
         spinner_select_account = (Spinner) view.findViewById(R.id.spinner_account_name);
 
         enter_ammount = (EditText) view.findViewById(R.id.et_enter_ammount);
+        value_selected_amount = enter_ammount.getText().toString();
 
         selectDate = (Button) view.findViewById(R.id.btn_select_date);
         description = (EditText) view.findViewById(R.id.et_description);
@@ -174,6 +183,7 @@ public class EventAccountingFragment extends ListFragment {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     super.onSuccess(statusCode, headers, response);
+                    objAccResponseServer = response;
 
                     Log.d("eventAcc", "Acc name Success" + response);
                     try {
@@ -207,7 +217,9 @@ public class EventAccountingFragment extends ListFragment {
         spinner_transaction_mode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
+                Log.d("eventAcc", "transactionMode" + parent.getItemAtPosition(position).toString());
                 Toast.makeText(getActivity(), "" + parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
@@ -221,7 +233,15 @@ public class EventAccountingFragment extends ListFragment {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), "" + parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "" + parent, Toast.LENGTH_SHORT).show();
+                try {
+                    Log.d("eventAcc", "objAccResponseServer array" + objAccResponseServer.getJSONArray("accountList").getJSONObject(position));
+                    selectedAcc.put("account", objAccResponseServer.getJSONArray("accountList").getJSONObject(position));
+//                          account: {amount: "1878 Cr", id: 1, account_name: "My Bank Account"}
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+//                selectedAcc.put("account", )
             }
 
             @Override
@@ -238,6 +258,51 @@ public class EventAccountingFragment extends ListFragment {
 
         adapter_credit_debit.setDropDownViewResource(android.R.layout.simple_spinner_item);
         spinner_account_action_credit_debit.setAdapter(adapter_credit_debit);
+
+        spinner_account_action_credit_debit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("eventAcc", "Selected Item" + parent.getItemAtPosition(position));
+                if(position == 0){
+                    value_is_credit_debit = "C";
+                    Log.d("eventAcc","Credit");
+                }else{
+                    value_is_credit_debit = "D";
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
+
+//      Add obj to Acc Transaction List
+        btn_save_acc_tran = (Button) view.findViewById(btn_add_more_acc);
+
+        btn_save_acc_tran.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                JSONObject singleAccountTransaction = new JSONObject();
+                try {
+                    singleAccountTransaction.put("is_debit",value_is_credit_debit);
+                    singleAccountTransaction.put("amount",value_selected_amount);
+                    singleAccountTransaction.put("account", selectedAcc);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+//                accountArrayListSingleObj.add("Acc_list", "");
+
+
+            }
+        });
 
 
         return view;
