@@ -41,8 +41,12 @@ public class EventAccountingFragment extends ListFragment {
 
     Spinner spinner_transaction_mode,spinner_account_action_credit_debit, spinner_select_account;
     EditText enter_ammount, description;
-    Button selectDate, btn_save_acc_tran;
+    Button selectDate, btn_save_acc_tran, btn_save_current_transaction;
     public String value_selected_amount,value_is_credit_debit;
+    JSONArray acc_list_to_send = new JSONArray();
+    int count_acc_list_to_send = 0;
+
+    JSONObject singleAccountTransaction = new JSONObject();
 
     private OnFragmentInteractionListener mListener;
 
@@ -117,7 +121,7 @@ public class EventAccountingFragment extends ListFragment {
         spinner_select_account = (Spinner) view.findViewById(R.id.spinner_account_name);
 
         enter_ammount = (EditText) view.findViewById(R.id.et_enter_ammount);
-        value_selected_amount = enter_ammount.getText().toString();
+//        value_selected_amount = enter_ammount.getText().toString();
 
         selectDate = (Button) view.findViewById(R.id.btn_select_date);
         description = (EditText) view.findViewById(R.id.et_description);
@@ -236,7 +240,9 @@ public class EventAccountingFragment extends ListFragment {
                 Toast.makeText(getContext(), "" + parent, Toast.LENGTH_SHORT).show();
                 try {
                     Log.d("eventAcc", "objAccResponseServer array" + objAccResponseServer.getJSONArray("accountList").getJSONObject(position));
-                    selectedAcc.put("account", objAccResponseServer.getJSONArray("accountList").getJSONObject(position));
+//                    selectedAcc.put("account", objAccResponseServer.getJSONArray("accountList").getJSONObject(position));
+                    singleAccountTransaction.put("account", objAccResponseServer.getJSONArray("accountList").getJSONObject(position));
+
 //                          account: {amount: "1878 Cr", id: 1, account_name: "My Bank Account"}
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -264,10 +270,10 @@ public class EventAccountingFragment extends ListFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("eventAcc", "Selected Item" + parent.getItemAtPosition(position));
-                if(position == 0){
+                if (position == 0) {
                     value_is_credit_debit = "C";
-                    Log.d("eventAcc","Credit");
-                }else{
+                    Log.d("eventAcc", "Credit");
+                } else {
                     value_is_credit_debit = "D";
                 }
 
@@ -280,7 +286,24 @@ public class EventAccountingFragment extends ListFragment {
         });
 
 
+        btn_save_current_transaction = (Button) view.findViewById(R.id.btn_add_event_acc);
+        btn_save_current_transaction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("eventAcc","save tran btn");
+                JSONObject tranObjWithDateTime = new JSONObject();
+                try {
+                    tranObjWithDateTime.put("Acc_list",singleAccountTransaction);
+                    tranObjWithDateTime.put("transaction_date","2012012");
+                    tranObjWithDateTime.put("description","lol");
+                    Log.d("eventAcc", "tranObjWithDateTime is "+tranObjWithDateTime);
 
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
 
 //      Add obj to Acc Transaction List
         btn_save_acc_tran = (Button) view.findViewById(btn_add_more_acc);
@@ -289,16 +312,24 @@ public class EventAccountingFragment extends ListFragment {
             @Override
             public void onClick(View v) {
 
-                JSONObject singleAccountTransaction = new JSONObject();
                 try {
                     singleAccountTransaction.put("is_debit",value_is_credit_debit);
-                    singleAccountTransaction.put("amount",value_selected_amount);
-                    singleAccountTransaction.put("account", selectedAcc);
+                    singleAccountTransaction.put("amount", enter_ammount.getText().toString());
+                    Log.d("eventAcc", "amount is " + enter_ammount.getText().toString());
+                    //singleAccountTransaction.put("account", selectedAcc);
+                    Log.d("eventAcc", "obj2" + singleAccountTransaction);
+
+                    if( enter_ammount.getText().toString() != null && Integer.parseInt(enter_ammount.getText().toString())> -1){
+                        acc_list_to_send.put(singleAccountTransaction);
+                        Log.d("eventAcc", "add button" + count_acc_list_to_send + acc_list_to_send.toString(4));
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
 //                accountArrayListSingleObj.add("Acc_list", "");
+
+
 
 
             }
