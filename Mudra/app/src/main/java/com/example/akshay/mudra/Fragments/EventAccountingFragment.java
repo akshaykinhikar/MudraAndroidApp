@@ -149,7 +149,7 @@ public class EventAccountingFragment extends ListFragment {
         eventAcc.setCookieStore(myCookieStore);
 
         if (Utility.isNetConnected(getContext())) {
-               eventAcc.get(getActivity(), "http://192.168.43.236:8000/get_transactiontype_from_db/", new JsonHttpResponseHandler() {
+               eventAcc.get(getActivity(), "http://192.168.1.125:8000/get_transactiontype_from_db/", new JsonHttpResponseHandler() {
                    @Override
                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                        super.onSuccess(statusCode, headers, response);
@@ -183,7 +183,7 @@ public class EventAccountingFragment extends ListFragment {
 //            =============================================
 //            ======   GET ACCOUNT   ======================
 //            =============================================
-            eventAcc.get(getActivity(), "http://192.168.43.236:8000/show_account_details/", new JsonHttpResponseHandler() {
+            eventAcc.get(getActivity(), "http://192.168.1.125:8000/show_account_details/", new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     super.onSuccess(statusCode, headers, response);
