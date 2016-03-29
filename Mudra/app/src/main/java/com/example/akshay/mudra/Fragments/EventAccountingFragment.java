@@ -29,6 +29,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
@@ -37,7 +39,7 @@ import cz.msebera.android.httpclient.Header;
 
 import static com.example.akshay.mudra.R.id.btn_add_more_acc;
 
-public class EventAccountingFragment extends ListFragment {
+public class EventAccountingFragment extends ListFragment implements  DatePickerDialog.OnDateSetListener {
 
     Spinner spinner_transaction_mode,spinner_account_action_credit_debit, spinner_select_account;
     EditText enter_ammount, description;
@@ -45,6 +47,7 @@ public class EventAccountingFragment extends ListFragment {
     public String value_selected_amount,value_is_credit_debit;
     JSONArray acc_list_to_send = new JSONArray();
     int count_acc_list_to_send = 0;
+    long millisecondsSinceEpoch0;
 
     JSONObject singleAccountTransaction = new JSONObject();
 
@@ -129,7 +132,7 @@ public class EventAccountingFragment extends ListFragment {
         selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog datePickerDialog = DatePickerDialog.newInstance((DatePickerDialog.OnDateSetListener) getActivity(),2015,9,5);
+                DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(EventAccountingFragment.this,2015,9,5);
                 datePickerDialog.show(getFragmentManager(), TAG_DATE_PICKER_DIALOG);
             }
 
@@ -294,8 +297,8 @@ public class EventAccountingFragment extends ListFragment {
                 JSONObject tranObjWithDateTime = new JSONObject();
                 try {
                     tranObjWithDateTime.put("Acc_list",singleAccountTransaction);
-                    tranObjWithDateTime.put("transaction_date","2012012");
-                    tranObjWithDateTime.put("description","lol");
+                    tranObjWithDateTime.put("transaction_date",millisecondsSinceEpoch0);
+                    tranObjWithDateTime.put("description",description.getText());
                     Log.d("eventAcc", "tranObjWithDateTime is "+tranObjWithDateTime);
 
                 } catch (JSONException e) {
@@ -350,9 +353,34 @@ public class EventAccountingFragment extends ListFragment {
         }
     }
 
-     public interface OnFragmentInteractionListener {
+    @Override
+    public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
+        Toast.makeText(getActivity(), "" + year + month + day, Toast.LENGTH_SHORT).show();
+        String str = ""+year+"-"+month+"-"+day;
+
+
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date gmt = null;
+        try {
+            gmt = formatter.parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        millisecondsSinceEpoch0 = gmt.getTime();
+        String asString = formatter.format(gmt);
+        Log.d("homeActivity","" +asString +"<------>" +millisecondsSinceEpoch0);
+
+    }
+
+    public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(String obj);
      }
+
+    public void onDateSelected(long date){
+        Log.d("eventAcc"," date is " +date);
+
+    }
 
 }

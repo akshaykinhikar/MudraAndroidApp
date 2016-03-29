@@ -43,8 +43,7 @@ public class HomeActivity extends AppCompatActivity
         EventAccountingFragment.OnFragmentInteractionListener,
         AccountsFragment.FragmentTransactionInterface,
         EditAccountsFragment.EditAccountFragmentInterface,
-        HomeFragment.FragmentAccountsInterface,
-        DatePickerDialog.OnDateSetListener
+        HomeFragment.FragmentAccountsInterface
 {
 
     FragmentManager fragmentManager = getSupportFragmentManager();
@@ -273,23 +272,5 @@ public class HomeActivity extends AppCompatActivity
         fragmentTransaction.commit();
     }
 
-    @Override
-    public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
-        Toast.makeText(HomeActivity.this, "" + year + month + day, Toast.LENGTH_SHORT).show();
-        String str = ""+year+"-"+month+"-"+day;
 
-
-
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        java.util.Date gmt = null;
-        try {
-            gmt = formatter.parse(str);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        long millisecondsSinceEpoch0 = gmt.getTime();
-        String asString = formatter.format(gmt);
-        Log.d("homeActivity","" +asString +"<------>" +millisecondsSinceEpoch0);
-
-    }
 }
