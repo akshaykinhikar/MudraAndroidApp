@@ -353,6 +353,6 @@ public class EventAccountingFragment extends ListFragment {
      public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(String obj);
-    }
+     }
 
 }
