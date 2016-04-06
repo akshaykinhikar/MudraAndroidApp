@@ -61,7 +61,7 @@ public class AccountsFragment extends ListFragment {
         accountsReq.setCookieStore(accounts_cookies);
         try {
             if (Utility.isNetConnected(getContext())) {
-                accountsReq.get("http://192.168.1.113:8080/show_account_details/", new JsonHttpResponseHandler() {
+                accountsReq.get("http://192.168.1.225:8080/show_account_details/", new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         super.onSuccess(statusCode, headers, response);
