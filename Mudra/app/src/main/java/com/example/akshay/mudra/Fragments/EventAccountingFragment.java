@@ -29,6 +29,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ import java.util.List;
 import java.util.HashMap;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 
 import static com.example.akshay.mudra.R.id.btn_add_more_acc;
 
@@ -152,7 +154,7 @@ public class EventAccountingFragment extends ListFragment implements  DatePicker
         eventAcc.setCookieStore(myCookieStore);
 
         if (Utility.isNetConnected(getContext())) {
-               eventAcc.get(getActivity(), "http://192.168.1.125:8000/get_transactiontype_from_db/", new JsonHttpResponseHandler() {
+               eventAcc.get(getActivity(), "http://192.168.1.113:8080/get_transactiontype_from_db/", new JsonHttpResponseHandler() {
                    @Override
                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                        super.onSuccess(statusCode, headers, response);
@@ -186,7 +188,7 @@ public class EventAccountingFragment extends ListFragment implements  DatePicker
 //            =============================================
 //            ======   GET ACCOUNT   ======================
 //            =============================================
-            eventAcc.get(getActivity(), "http://192.168.1.125:8000/show_account_details/", new JsonHttpResponseHandler() {
+            eventAcc.get(getActivity(), "http://192.168.1.113:8080/show_account_details/", new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     super.onSuccess(statusCode, headers, response);
@@ -299,7 +301,36 @@ public class EventAccountingFragment extends ListFragment implements  DatePicker
                     tranObjWithDateTime.put("Acc_list",singleAccountTransaction);
                     tranObjWithDateTime.put("transaction_date",millisecondsSinceEpoch0);
                     tranObjWithDateTime.put("description",description.getText());
-                    Log.d("eventAcc", "tranObjWithDateTime is "+tranObjWithDateTime);
+                    Log.d("eventAcc", "tranObjWithDateTime is "+tranObjWithDateTime.toString(4));
+
+                    AsyncHttpClient transaction = new AsyncHttpClient();
+                    PersistentCookieStore myCookieStore1 = new PersistentCookieStore(getActivity());
+                    transaction.setCookieStore(myCookieStore1);
+
+//                    +++++++++++++++++++++++++++++++++++++++++++++++++++
+//                    +++++++++++ Post Total Record++++++++++++++++++++++++
+//                    +++++++++++++++++++++++++++++++++++++++++++++++++++
+
+                    if(Utility.isNetConnected(getContext())){
+                        try {
+                            transaction.post(getActivity(), "http://192.168.1.113:8080/transaction_for_account/", new StringEntity(tranObjWithDateTime.toString()),
+                                    "application/json", new JsonHttpResponseHandler() {
+                                        @Override
+                                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                            super.onSuccess(statusCode, headers, response);
+                                            Log.d("eventAcc","response from server" +response);
+                                        }
+
+                                        @Override
+                                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                            super.onFailure(statusCode, headers, responseString, throwable);
+                                            Log.d("eventAcc","Error response from server" +responseString);
+                                        }
+                                    });
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -319,8 +350,7 @@ public class EventAccountingFragment extends ListFragment implements  DatePicker
                     singleAccountTransaction.put("is_debit",value_is_credit_debit);
                     singleAccountTransaction.put("amount", enter_ammount.getText().toString());
                     Log.d("eventAcc", "amount is " + enter_ammount.getText().toString());
-                    //singleAccountTransaction.put("account", selectedAcc);
-                    Log.d("eventAcc", "obj2" + singleAccountTransaction);
+                    Log.d("eventAcc", "singleAccountTransaction obj2" + singleAccountTransaction);
 
                     if( enter_ammount.getText().toString() != null && Integer.parseInt(enter_ammount.getText().toString())> -1){
                         acc_list_to_send.put(singleAccountTransaction);

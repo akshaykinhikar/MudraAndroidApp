@@ -54,7 +54,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         JSONObject userInfo = new JSONObject();
                         userInfo.put("userInfo", userRegisterDetail);
                         if(Utility.isNetConnected(getApplicationContext())){
-                            registerUser.post(RegistrationActivity.this, "http://192.168.1.125:8000/register_new_user/",
+                            registerUser.post(RegistrationActivity.this, "http://192.168.1.113:8080/register_new_user/",
                                     new StringEntity(userInfo.toString()),"application/json",
                                     new JsonHttpResponseHandler(){
                                         @Override
