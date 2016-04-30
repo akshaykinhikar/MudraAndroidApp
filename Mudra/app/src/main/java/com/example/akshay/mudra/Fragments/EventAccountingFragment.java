@@ -154,7 +154,7 @@ public class EventAccountingFragment extends ListFragment implements  DatePicker
         eventAcc.setCookieStore(myCookieStore);
 
         if (Utility.isNetConnected(getContext())) {
-               eventAcc.get(getActivity(), "http://192.168.1.112:8080/get_transactiontype_from_db/", new JsonHttpResponseHandler() {
+               eventAcc.get(getActivity(), "http://192.168.1.116:8001/get_transactiontype_from_db/", new JsonHttpResponseHandler() {
                    @Override
                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                        super.onSuccess(statusCode, headers, response);
@@ -188,7 +188,7 @@ public class EventAccountingFragment extends ListFragment implements  DatePicker
 //            =============================================
 //            ======   GET ACCOUNT   ======================
 //            =============================================
-            eventAcc.get(getActivity(), "http://192.168.1.112:8080/show_account_details/", new JsonHttpResponseHandler() {
+            eventAcc.get(getActivity(), "http://192.168.1.116:8001/show_account_details/", new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     super.onSuccess(statusCode, headers, response);
@@ -314,7 +314,7 @@ public class EventAccountingFragment extends ListFragment implements  DatePicker
 
                     if(Utility.isNetConnected(getContext())){
                         try {
-                            transaction.post(getActivity(), "http://192.168.1.112:8080/transaction_for_account/", new StringEntity(tranObjWithDateTime.toString()),
+                            transaction.post(getActivity(), "http://192.168.1.116:8001/transaction_for_account/", new StringEntity(tranObjWithDateTime.toString()),
                                     "application/json", new JsonHttpResponseHandler() {
                                         @Override
                                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
