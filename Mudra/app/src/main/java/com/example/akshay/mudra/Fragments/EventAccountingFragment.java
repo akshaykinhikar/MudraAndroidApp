@@ -48,7 +48,7 @@ public class EventAccountingFragment extends ListFragment implements  DatePicker
     Button selectDate, btn_save_acc_tran, btn_save_current_transaction;
     public String value_selected_amount,value_is_credit_debit;
     JSONArray acc_list_to_send = new JSONArray();
-    int count_acc_list_to_send = 0;
+    int count_acc_list_to_send = 0, transactiontype;
     long millisecondsSinceEpoch0;
 
     JSONObject singleAccountTransaction = new JSONObject();
@@ -67,6 +67,8 @@ public class EventAccountingFragment extends ListFragment implements  DatePicker
     JSONObject selectedAcc = new JSONObject();
 
     JSONObject objAccResponseServer;
+
+    JSONObject data = new JSONObject();  // final Deta for storing current transaction
 
 
 //    =============================
@@ -248,6 +250,8 @@ public class EventAccountingFragment extends ListFragment implements  DatePicker
                     Log.d("eventAcc", "objAccResponseServer array" + objAccResponseServer.getJSONArray("accountList").getJSONObject(position));
 //                    selectedAcc.put("account", objAccResponseServer.getJSONArray("accountList").getJSONObject(position));
                     singleAccountTransaction.put("account", objAccResponseServer.getJSONArray("accountList").getJSONObject(position));
+                    transactiontype = position;
+
 
 //                          account: {amount: "1878 Cr", id: 1, account_name: "My Bank Account"}
                 } catch (JSONException e) {
@@ -299,9 +303,11 @@ public class EventAccountingFragment extends ListFragment implements  DatePicker
                 Log.d("eventAcc","save tran btn");
                 JSONObject tranObjWithDateTime = new JSONObject();
                 try {
-                    tranObjWithDateTime.put("Acc_list",singleAccountTransaction);
+                    tranObjWithDateTime.put("Acc_list",acc_list_to_send);
                     tranObjWithDateTime.put("transaction_date",millisecondsSinceEpoch0);
                     tranObjWithDateTime.put("description",description.getText());
+                    tranObjWithDateTime.put("transactiontype",transactiontype);
+                    Log.d("eventAcc", "------------------");
                     Log.d("eventAcc", "tranObjWithDateTime is "+tranObjWithDateTime.toString(4));
 
                     AsyncHttpClient transaction = new AsyncHttpClient();
@@ -314,7 +320,9 @@ public class EventAccountingFragment extends ListFragment implements  DatePicker
 
                     if(Utility.isNetConnected(getContext())){
                         try {
-                            transaction.post(getActivity(), "http://192.168.1.116:8001/transaction_for_account/", new StringEntity(tranObjWithDateTime.toString()),
+                            JSONObject data = new JSONObject();
+                            data.put("data", tranObjWithDateTime);
+                            transaction.post(getActivity(), "http://192.168.1.116:8001/transaction_for_account/", new StringEntity(data.toString()),
                                     "application/json", new JsonHttpResponseHandler() {
                                         @Override
                                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

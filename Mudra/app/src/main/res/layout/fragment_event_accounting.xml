@@ -27,6 +27,10 @@
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content">-->
             <!--</DatePicker>-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Transaction Mode"/>
             <Spinner
                 android:id="@+id/spinner_transaction_mode"
                 android:layout_width="match_parent"
@@ -34,6 +38,11 @@
                 android:padding="10px"
                 android:prompt="@string/spinner_title">
             </Spinner>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Credit/Debit"/>
 
             <Spinner
                 android:id="@+id/spinner_credit_debit"
@@ -43,6 +52,10 @@
                 android:prompt="@string/spinner_title">
             </Spinner>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Account Name"/>
             <Spinner
                 android:id="@+id/spinner_account_name"
                 android:layout_width="match_parent"
@@ -50,6 +63,11 @@
                 android:padding="20px"
                 android:prompt="@string/spinner_title">
             </Spinner>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enter Ammount"/>
 
             <EditText
                 android:layout_width="match_parent"
